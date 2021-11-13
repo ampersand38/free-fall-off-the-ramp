@@ -1,12 +1,12 @@
-name = "Ride Where You look";
+name = "Free Fall Off The Ramp";
 picture = "logo_ffr_ca.paa";
 actionName = "GitHub";
 action = "https://github.com/ampersand38/free-fall-off-the-ramp";
-description = "Pick your vehicle seat by looking.";
+description = "Walk off the ramp to free fall.";
 logo = "logo_ffr_ca.paa";
 logoOver = "logo_ffr_ca.paa";
-tooltip = "Ride Where You look";
-tooltipOwned = "Ride Where You look";
-overview = "Pick your vehicle seat by looking.";
+tooltip = "Free Fall Off The Ramp";
+tooltipOwned = "Free Fall Off The Ramp";
+overview = "Walk off the ramp to free fall.";
 author = "Ampersand";
 overviewPicture = "logo_ffr_ca.paa";

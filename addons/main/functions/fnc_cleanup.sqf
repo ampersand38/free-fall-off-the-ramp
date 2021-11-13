@@ -1,4 +1,4 @@
-//#include "script_component.hpp"
+#include "script_component.hpp"
 /*
 Author: Ampers
 Move unit out of aicraft seat to standing in ViV space
@@ -10,7 +10,7 @@ Move unit out of aicraft seat to standing in ViV space
 * -
 
 * Example:
-* [_aircraft] call ffr_main_fnc_cleanup
+* [_aircraft] call ffr_main_fnc_cleanUp = {
 */
 
 params ["_aircraft"];
@@ -18,4 +18,4 @@ params ["_aircraft"];
 {
     deleteVehicle (_aircraft getVariable [_x, objNull]);
     _aircraft setVariable [_x, nil];
-} forEach ["halo_dummy", "halo_helper", "jumplight"];
+} forEach ["ffr_dummy", "ffr_helper", "frr_jumplight", "ffr_jumplight_dummy"];
