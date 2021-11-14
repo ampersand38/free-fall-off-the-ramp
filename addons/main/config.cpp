@@ -9,7 +9,7 @@ class CfgPatches {
         requiredAddons[] = {"cba_common"};
         author = "Ampersand";
         authors[] = {"Ampersand"};
-        authorUrl = "https://github.com/ampersand38/ffr";
+        authorUrl = "https://github.com/ampersand38/free-fall-off-the-ramp";
         VERSION_CONFIG;
     };
 };
