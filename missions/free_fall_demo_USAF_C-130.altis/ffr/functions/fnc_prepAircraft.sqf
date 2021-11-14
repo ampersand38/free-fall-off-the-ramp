@@ -26,7 +26,7 @@ _aircraft addAction ["Stand Up", {
 
 _aircraft addAction ["Plan AI Flight", {
     call ffr_main_fnc_planFlight;
-}, nil, 0, true, true, "", "isClass (configFile >> 'ffr_altitude_menu') && {!isNull driver _target} && { !isPlayer driver _target } && { _this in _target } && {_this == leader _this}"];
+}, nil, 0, true, true, "", "!isNull driver _target && { !isPlayer driver _target } && { _this in _target } && {_this == leader _this}"];
 
 _aircraft addAction ["Begin AI Flight", {
     params ["_aircraft"];

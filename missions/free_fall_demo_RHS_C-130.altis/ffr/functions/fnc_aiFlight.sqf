@@ -13,7 +13,7 @@ Set AI piloted aircraft to fly the drop
 * -
 
 * Example:
-* [_aircraft, ffr_ai_alt, ffr_ai_rp, ffr_ai_ip] call ffr_main_fnc_aiFlight = {
+* [_aircraft, ffr_ai_alt, ffr_ai_rp, ffr_ai_ip] call ffr_main_fnc_aiFlight ={
 */
 
 params ["_aircraft", "_alt", "_rp", "_ip"];

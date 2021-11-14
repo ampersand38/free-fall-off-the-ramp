@@ -1,0 +1,5 @@
+// Free Fall Off The Ramp
+#include "ffr\menu.hpp"
+class CfgFunctions {
+    #include "ffr\functions.hpp"
+};
