@@ -19,20 +19,28 @@ Set AI piloted aircraft to fly the drop
 params ["_aircraft", "_alt", "_rp", "_ip"];
 
 private _minDistance = 4000;
-private _dir = _ip getDir _rp;
 _aircraft engineOn true;
-_aircraft limitSpeed 240;
-_aircraft flyInHeightASL [_alt, _alt, _alt];
+_aircraft setFuel 1;
+private _idealSpeed = 240; // ~130 kts
+private _cfg = configOf _aircraft;
+private _stallSpeed = getNumber (_cfg >> "stallSpeed");
+private _maxSpeed = getNumber (_cfg >> "maxSpeed");
+private _spd = (_stallSpeed max 240) min _maxSpeed;
+private _dir = _ip getDir _rp;
 if (_rp distance2D _ip < _minDistance) then {
     _ip = _rp getPos [_minDistance, _dir - 180];
+    if (!isNil "ffr_ai_ipMarker") then {
+        ffr_ai_ipMarker setMarkerPos _ip;
+    };
 };
 _rp set [2, _alt];
 _ip set [2, _alt];
 _aircraft setPosASL _ip;
-_aircraft setFuel 1;
 _aircraft setVectorUp [0, 0, 1];
 _aircraft setDir _dir;
-_aircraft setVelocityModelSpace [0, 66, 0];
+_aircraft setVelocityModelSpace [0, _spd / 3.6, 10];
+_aircraft limitSpeed _spd;
+_aircraft flyInHeightASL [_alt, _alt, _alt];
 
 private _grp = group _aircraft;
 for "_i" from count waypoints _grp - 1 to 0 step -1 do
