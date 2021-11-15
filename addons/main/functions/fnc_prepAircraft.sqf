@@ -27,7 +27,7 @@ _aircraft addAction ["Begin AI Flight", {
 _aircraft addAction ["Prep Ramp for Free Fall", {
     params ["_aircraft"];
     ["ffr_main_prepRamp", [_aircraft]] call CBA_fnc_serverEvent;
-}, nil, 0, true, true, "", "(getPos _target # 2) > 200 && {_this == driver _target || {!isNull driver _target && {!isPlayer driver _target} && {_this == leader _this}}}"];
+}, nil, 0, false, true, "", "(getPos _target # 2) > 200 && {_this == driver _target || {!isNull driver _target && {!isPlayer driver _target} && {_this == leader _this}}}"];
 
 _aircraft addAction ["Stand Up", {
     call ffr_main_fnc_standUp;
@@ -52,3 +52,8 @@ _aircraft addAction ["<t color='#999999'>Jumplight Off</t>", {
     params ["_aircraft"];
     ["ffr_main_setJumplight", [_aircraft, "off"]] call CBA_fnc_globalEvent;
 }, nil, 0, false, false, "", "!isNull (_target getVariable ['ffr_jumplight', objNull]) && {!isNull (_target getVariable ['ffr_jumplight_dummy', objNull])}"];
+
+_aircraft addAction ["<t color='#999999'>Secure Ramp from Free Fall</t>", {
+    params ["_aircraft"];
+    [_aircraft] call ffr_main_fnc_cleanUp;
+}, nil, 0, false, false, "", "!isNull (_target getVariable ['ffr_dummy', objNull]) && {!isNull (_target getVariable ['ffr_jumplight', objNull])} && {!isNull (_target getVariable ['ffr_jumplight_dummy', objNull])}"];
