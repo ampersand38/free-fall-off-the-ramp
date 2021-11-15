@@ -39,6 +39,11 @@ _unit switchMove "";
 [{
     params ["_args", "_pfID"];
     _args params ["_unit", "_aircraft", "_dummy", "_time", "_rampAltitude"];
+    if (vehicle _unit == _aircraft) then {
+        [_pfID] call CBA_fnc_removePerFrameHandler;
+        _unit setVariable ["ffr_aircraft", nil, true];
+    };
+
     if (CBA_missionTime > _time) then {
         _unit allowDamage true;
     };
