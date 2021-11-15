@@ -18,9 +18,9 @@ Set AI piloted aircraft to fly the drop
 
 params ["_aircraft", "_alt", "_rp", "_ip"];
 
-private _minDistance = 4000;
 _aircraft engineOn true;
 _aircraft setFuel 1;
+private _minDistance = 6000;
 private _idealSpeed = 240; // ~130 kts
 private _cfg = configOf _aircraft;
 private _stallSpeed = getNumber (_cfg >> "stallSpeed");
@@ -48,22 +48,23 @@ for "_i" from count waypoints _grp - 1 to 0 step -1 do
 	deleteWaypoint [_grp, _i];
 };
 
-_wp = _grp addWaypoint [_ip, -1, 0, "IP"];
+_wpPos = _rp getPos [4000, _dir - 180];
+_wpPos set [2, _alt];
+_wp = _grp addWaypoint [_wpPos, -1, 0, "IP"];
+_wp setWaypointStatements ["true", "hint 'Stand up and check equipment!'; _a = vehicle this; if (isNull (_a getVariable ['ffr_dummy', objNull])) then {['ffr_main_prepRamp', [_a, true]] call CBA_fnc_serverEvent;};"];
 
 _wpPos = _rp getPos [2000, _dir - 180];
 _wpPos set [2, _alt];
 _wp = _grp addWaypoint [_wpPos, -1, 1, "Red Light"];
-_wp setWaypointStatements ["true", "hint 'Open ramp and stand up!'; _a = vehicle this; if (isNull (_a getVariable ['ffr_dummy', objNull])) then {['ffr_main_prepRamp', [_a]] call CBA_fnc_serverEvent; ['ffr_main_setJumplight', [_a, 'red']] call CBA_fnc_globalEvent;};"];
+_wp setWaypointStatements ["true", "hint 'Red Light!'; _a = vehicle this; ['ffr_main_setJumplight', [_a, 'red']] call CBA_fnc_globalEvent;"];
 
 _wp = _grp addWaypoint [_rp, -1, 2, "RP"];
-_wp setWaypointStatements ["true", "hint 'Go! Go! Go!'; _a = vehicle this; ['ffr_main_setJumplight', [_a, 'green']] call CBA_fnc_globalEvent;"];
+_wp setWaypointStatements ["true", "hint 'Green Light! Go! Go! Go!'; _a = vehicle this; ['ffr_main_setJumplight', [_a, 'green']] call CBA_fnc_globalEvent;"];
 
 _wpPos = _rp getPos [2000, _dir];
 _wpPos set [2, _alt];
 _wp = _grp addWaypoint [_wpPos, -1, 3, "All Out"];
 
-_wpPos = _rp getPos [_minDistance, _dir];
-_wpPos set [2, _alt];
-private _wpExfil = _grp addWaypoint [_wpPos, -1, 4, "Exfil"];
+private _wpExfil = _grp addWaypoint [_ip, -1, 4, "Exfil"];
 _wpExfil setWaypointStatements ["true", "_a = vehicle this; deleteMarker (a getVariable 'ffr_ai_acMarker'); [a] call ffr_main_fnc_cleanup; deleteVehicleCrew _a; deleteVehicle _a;"];
 _aircraft move _wpPos;
