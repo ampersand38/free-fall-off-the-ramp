@@ -15,14 +15,17 @@ Add actions to aircraft for Plan AI Flight and Set Ramp for Jump
 
 params ["_aircraft"];
 
-_aircraft addAction ["Plan AI Flight", {
-    call ffr_main_fnc_planFlight;
-}, nil, 0, true, true, "", "isClass (configFile >> 'ffr_altitude_menu') && {!isNull driver _target} && { !isPlayer driver _target } && { _this in _target } && {_this == leader _this}"];
+private _isHeli = _aircraft isKindOf "Helicopter";
+if (!_isHeli) then {
+    _aircraft addAction ["Plan AI Flight", {
+        call ffr_main_fnc_planFlight;
+    }, nil, 0, true, true, "", "isClass (configFile >> 'ffr_altitude_menu') && {!isNull driver _target} && { !isPlayer driver _target } && { _this in _target } && {_this == leader _this}"];
 
-_aircraft addAction ["Begin AI Flight", {
-    params ["_aircraft"];
-    ["ffr_main_aiFlight", [_aircraft, ffr_ai_alt, ffr_ai_rp, ffr_ai_ip], _aircraft] call CBA_fnc_globalEvent;
-}, nil, 0, true, true, "", "(_target getCargoIndex _this) > -1 && {_this == leader _this} && {!isNil 'ffr_ai_alt'} && {!isNil 'ffr_ai_rp'} && {!isNil 'ffr_ai_ip'} && {isNull (_target getVariable ['ffr_dummy', objNull])}"];
+    _aircraft addAction ["Begin AI Flight", {
+        params ["_aircraft"];
+        ["ffr_main_aiFlight", [_aircraft, ffr_ai_alt, ffr_ai_rp, ffr_ai_ip], _aircraft] call CBA_fnc_globalEvent;
+    }, nil, 0, true, true, "", "(_target getCargoIndex _this) > -1 && {_this == leader _this} && {!isNil 'ffr_ai_alt'} && {!isNil 'ffr_ai_rp'} && {!isNil 'ffr_ai_ip'} && {isNull (_target getVariable ['ffr_dummy', objNull])}"];
+};
 
 _aircraft addAction ["Prep Ramp for Free Fall", {
     params ["_aircraft"];
