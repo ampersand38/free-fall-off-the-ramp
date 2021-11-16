@@ -21,7 +21,7 @@ switch (_state) do {
     case ("red"): {
         if (_dummy isKindOf "RHS_C130J") then {
             // Is this the dummy?
-            private _realAircraft = _dummy getVariable ["ffr_dummy", objNull];
+            private _realAircraft = _dummy getVariable ["ffr_aircraft", objNull];
             if (!isNull _realAircraft) then {
                 _dummy = _realAircraft;
             };
@@ -35,7 +35,7 @@ switch (_state) do {
     case ("green"): {
         if (_dummy isKindOf "RHS_C130J") then {
             // Is this the dummy?
-            private _realAircraft = _dummy getVariable ["ffr_dummy", objNull];
+            private _realAircraft = _dummy getVariable ["ffr_aircraft", objNull];
             if (!isNull _realAircraft) then {
                 _dummy = _realAircraft;
             };
@@ -49,7 +49,7 @@ switch (_state) do {
     case ("off"): {
         if (_dummy isKindOf "RHS_C130J") then {
             // Is this the dummy?
-            private _realAircraft = _dummy getVariable ["ffr_dummy", objNull];
+            private _realAircraft = _dummy getVariable ["ffr_aircraft", objNull];
             if (!isNull _realAircraft) then {
                 _dummy = _realAircraft;
             };

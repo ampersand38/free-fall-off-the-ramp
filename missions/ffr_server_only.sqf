@@ -1,8 +1,43 @@
-ffr_ai_alt = 8000;
-ffr_ai_rp = getPos player;
-ffr_ai_ip = player getPos [4000, getDir player];
+// Global
+if (player == leader player) then {
+    private _aircraft = vehicle player;
+    ffr_ai_alt = getNumber (configOf _aircraft >> "altFullForce");
+    ffr_ai_ip = getPos _aircraft;
+    ffr_ai_rp = _aircraft getPos [6000, getDir _aircraft];
 
+    if (!isNil "ffr_ai_acMarker") then { deleteMarker ffr_ai_acMarker; };
+    private _markerName = format ["_USER_DEFINED #%1/ffr_ai_ac/%2", clientOwner, currentChannel];
+    private _pos = getPos _aircraft;
+    private _markerText = format ["%1", groupId group _aircraft];
+    private _markerType = switch (side _aircraft) do {
+        //cases (insertable by snippet)
+        case (west): {"b_plane"};
+        case (east): {"o_plane"};
+        case (guer): {"n_plane"};
+        case (civ): {"c_plane"};
+    };
+    ffr_ai_acMarker = format [
+        "|%1|%2|%3|ICON|[1,1]|0|Solid|Default|1|%4",
+        _markerName,
+        _pos,
+        _markerType,
+        _markerText
+    ] call BIS_fnc_stringToMarkerLocal;
+    ffr_ai_acMarker setMarkerAlpha 1;
 
+    if (!isNil "ffr_ai_pfID") then {
+        [ffr_ai_pfID] call CBA_fnc_removePerFrameHandler;
+    };
+    ffr_ai_pfID = [{
+        params ["_aircraft", "_pfID"];
+        _args params ["_aircraft"];
+        ffr_ai_acMarker setMarkerPos _aircraft;
+        if (!alive _aircraft) then {
+            deleteMarker ffr_ai_acMarker;
+            [_pfID] call CBA_fnc_removePerFrameHandler;
+        };
+    }, 0.1, _aircraft] call CBA_fnc_addPerFrameHandler;
+};
 ffr_main_fnc_aiFlight = {
 
 
@@ -49,7 +84,15 @@ for "_i" from count waypoints _grp - 1 to 0 step -1 do
 _wpPos = _rp getPos [4000, _dir - 180];
 _wpPos set [2, _alt];
 _wp = _grp addWaypoint [_wpPos, -1, 0, "IP"];
-_wp setWaypointStatements ["true", "_a = vehicle this; ['ffr_main_aiVehicleChat', [_a, 'Red Light! Stand up and check equipment!']] call CBA_fnc_globalEvent; if (isNull (_a getVariable ['ffr_dummy', objNull])) then {['ffr_main_prepRamp', [_a, true]] call CBA_fnc_serverEvent; ['ffr_main_setJumplight', [_a, 'red']] call CBA_fnc_globalEvent;};"];
+private _waypointStatements = {
+    _a = vehicle this;
+    ['ffr_main_aiVehicleChat', [_a, 'Red Light! Stand up and check equipment!']] call CBA_fnc_globalEvent;
+    if (isNull (_a getVariable ['ffr_dummy', objNull])) then {
+        ['ffr_main_prepRamp', [_a, true]] call CBA_fnc_serverEvent;
+        ['ffr_main_setJumplight', [_a, 'red']] call CBA_fnc_globalEvent;
+    };
+};
+_wp setWaypointStatements ["true", "call " + str _waypointStatements];
 
 _wpPos = _rp getPos [2000, _dir - 180];
 _wpPos set [2, _alt];
@@ -138,6 +181,7 @@ params ["_aircraft"];
     _aircraft setVariable [_x, nil];
 } forEach ["ffr_dummy", "ffr_helper", "ffr_jumplight", "ffr_jumplight_dummy"];
 };
+
 ffr_main_fnc_planFlight = {
 
 
@@ -235,14 +279,17 @@ ffr_main_fnc_prepAircraft = {
 
 params ["_aircraft"];
 
-_aircraft addAction ["Plan AI Flight", {
-    call ffr_main_fnc_planFlight;
-}, nil, 0, true, true, "", "isClass (configFile >> 'ffr_altitude_menu') && {!isNull driver _target} && { !isPlayer driver _target } && { _this in _target } && {_this == leader _this}"];
+private _isHeli = _aircraft isKindOf "Helicopter";
+if (!_isHeli) then {
+    _aircraft addAction ["Plan AI Flight", {
+        call ffr_main_fnc_planFlight;
+    }, nil, 0, true, true, "", "ffr_altitude_menu && {!isNull driver _target} && { !isPlayer driver _target } && { _this in _target } && {_this == leader _this}"];
 
-_aircraft addAction ["Begin AI Flight", {
-    params ["_aircraft"];
-    ["ffr_main_aiFlight", [_aircraft, ffr_ai_alt, ffr_ai_rp, ffr_ai_ip], _aircraft] call CBA_fnc_globalEvent;
-}, nil, 0, true, true, "", "(_target getCargoIndex _this) > -1 && {_this == leader _this} && {!isNil 'ffr_ai_alt'} && {!isNil 'ffr_ai_rp'} && {!isNil 'ffr_ai_ip'} && {isNull (_target getVariable ['ffr_dummy', objNull])}"];
+    _aircraft addAction ["Begin AI Flight", {
+        params ["_aircraft"];
+        ["ffr_main_aiFlight", [_aircraft, ffr_ai_alt, ffr_ai_rp, ffr_ai_ip], _aircraft] call CBA_fnc_globalEvent;
+    }, nil, 0, true, true, "", "(_target getCargoIndex _this) > -1 && {_this == leader _this} && {!isNil 'ffr_ai_alt'} && {!isNil 'ffr_ai_rp'} && {!isNil 'ffr_ai_ip'} && {isNull (_target getVariable ['ffr_dummy', objNull])}"];
+};
 
 _aircraft addAction ["Prep Ramp for Free Fall", {
     params ["_aircraft"];
@@ -304,44 +351,32 @@ _dummy attachTo [_helper, [0, -2000, _z]];
 _aircraft setVariable ["ffr_dummy", _dummy, true];
 _dummy setVariable ["ffr_aircraft", _aircraft, true];
 
-// Sync animations from aircraft to dummy
-private _animInfo = [];
-private _jumplightPos = [];
-if (_aircraft isKindOf "VTOL_01_infantry_base_F") then {
-    _animInfo = ["door", ["Door_1_source"]]; // ["_animType", "_anims"]
-    _jumplightPos = [0, -7.5, -3];
-    if (_openRamp) then {
-        _aircraft animateDoor ["Door_1_source", 1];
-    };
-};
-if (_aircraft isKindOf "USAF_C17") then {
-    _animInfo = ["", ["back_ramp_switch", "back_ramp", "back_ramp_st", "back_ramp_p", "back_ramp_p_2", "back_ramp_door_main"]];
-    _jumplightPos = [0, -6, 3];
-    if (_openRamp) then {
-        {
+// Open ramp
+private _jumpInfo = _aircraft getVariable "ffr_jumpInfo";
+_jumpInfo params ["_animInfo", "_jumplightPos"];
+_animInfo params ["_animType", "_anims"];
+{
+    switch (_animType) do {
+        case (""): {
             _aircraft animate [_x, 1];
-        } forEach (_animInfo # 1);
+        };
+        case ("source"): {
+            _aircraft animateSource [_x, 1];
+        };
+        case ("door"): {
+            _aircraft animateDoor [_x, 1];
+        };
     };
-};
-if (_aircraft isKindOf "USAF_C130J") then {
-    _animInfo = ["source", ["ramp_bottom", "ramp_top"]];
-    _jumplightPos = [0, -3.2, 3.87];
-    if (_openRamp) then {
-        _aircraft animateSource ["ramp_top", 1];
-        _aircraft animateSource ["ramp_bottom", 1];
-    };
-};
-if (_aircraft isKindOf "RHS_C130J") then {
-    _animInfo = ["source", ["ramp", "jumplight"]];
-    _jumplightPos = [0, -3, -2];
-    if (_openRamp) then {
-        _aircraft animateSource ["ramp", 1];
-    };
-};
+} forEach _anims;
+
+// Sync animations from aircraft to dummy
 private _pfID = [{
     params ["_args", "_pfID"];
     _args params ["_aircraft", "_dummy", "_animInfo"];
     _animInfo params ["_animType", "_anims"];
+    {
+        [_dummy, [_x, 1]] call _fnc_animateRamp;
+    } forEach _animations;
     {
         switch (_animType) do {
             case (""): {
@@ -378,6 +413,7 @@ _dummy setVariable ["ffr_jumplight_dummy", _jumplight_dummy, true];
 _aircraft addEventHandler ["Deleted", { call ffr_main_fnc_cleanup }];
 _aircraft addEventHandler ["Killed", { call ffr_main_fnc_cleanup }];
 };
+
 ffr_main_fnc_setJumplight = {
 
 
@@ -505,6 +541,7 @@ _unit switchMove "";
 }, 0, [_unit, _aircraft, _dummy, CBA_missionTime + 0.5, (_pos # 2) - 1]] call CBA_fnc_addPerFrameHandler;
 };
 
+ffr_altitude_menu = isClass (configFile >> 'ffr_altitude_menu') || {isClass (missionConfigFile >> 'ffr_altitude_menu')};
 
 ["ffr_main_prepRamp", { call ffr_main_fnc_prepRamp; }] call CBA_fnc_addEventHandler;
 ["ffr_main_setJumplight", { call ffr_main_fnc_setJumplight; }] call CBA_fnc_addEventHandler;
@@ -515,9 +552,101 @@ _unit switchMove "";
 }] call CBA_fnc_addEventHandler;
 
 if (hasInterface) then {
-    {
-        if (isClass (configFile >> "CfgVehicles" >> _x)) then {
-            [_x, "init", { call ffr_main_fnc_prepAircraft; }, true, [], true] call CBA_fnc_addClassEventHandler;
-        };
-    } forEach ["USAF_C17", "USAF_C130J", "RHS_C130J", "VTOL_01_infantry_base_F"];
+    private _class = "";
+
+    _class = "VTOL_01_infantry_base_F";
+    if (isClass (configFile >> "CfgVehicles" >> _class)) then {
+        [_class, "init", {
+            params ["_aircraft"];
+            [_aircraft] call ffr_main_fnc_prepAircraft;
+            _aircraft setVariable ["ffr_jumpInfo", [
+                ["door", ["Door_1_source"]], // _animInfo
+                [0, -7.5, -3]                // _jumplightPos
+            ], true];
+        }, true, [], true] call CBA_fnc_addClassEventHandler;
+    };
+
+    _class = "USAF_C17";
+    if (isClass (configFile >> "CfgVehicles" >> _class)) then {
+        [_class, "init", {
+            params ["_aircraft"];
+            [_aircraft] call ffr_main_fnc_prepAircraft;
+            _aircraft setVariable ["ffr_jumpInfo", [
+                ["", ["back_ramp_switch", "back_ramp", "back_ramp_st", "back_ramp_p", "back_ramp_p_2", "back_ramp_door_main"]],    // _animInfo
+                [0, -6, 3]                  // _jumplightPos
+            ], true];
+        }, true, [], true] call CBA_fnc_addClassEventHandler;
+    };
+
+    _class = "USAF_C130J";
+    if (isClass (configFile >> "CfgVehicles" >> _class)) then {
+        [_class, "init", {
+            params ["_aircraft"];
+            [_aircraft] call ffr_main_fnc_prepAircraft;
+            _aircraft setVariable ["ffr_jumpInfo", [
+                ["source", ["ramp_bottom", "ramp_top"]],    // _animInfo
+                [0, -3.2, 3.87]                  // _jumplightPos
+            ], true];
+        }, true, [], true] call CBA_fnc_addClassEventHandler;
+    };
+
+    _class = "RHS_C130J";
+    if (isClass (configFile >> "CfgVehicles" >> _class)) then {
+        [_class, "init", {
+            params ["_aircraft"];
+            [_aircraft] call ffr_main_fnc_prepAircraft;
+            _aircraft setVariable ["ffr_jumpInfo", [
+                ["source", ["ramp", "jumplight"]],    // _animInfo
+                [0, -3, -2]                  // _jumplightPos
+            ], true];
+        }, true, [], true] call CBA_fnc_addClassEventHandler;
+    };
+
+    _class = "RHS_CH_47F";
+    if (isClass (configFile >> "CfgVehicles" >> _class)) then {
+        [_class, "init", {
+            params ["_aircraft"];
+            [_aircraft] call ffr_main_fnc_prepAircraft;
+            _aircraft setVariable ["ffr_jumpInfo", [
+                ["source", ["ramp_anim"]],    // _animInfo
+                [0, -4.2, -0.75]                  // _jumplightPos
+            ], true];
+        }, true, [], true] call CBA_fnc_addClassEventHandler;
+    };
+
+    _class = "ffaa_famet_ch47_mg";
+    if (isClass (configFile >> "CfgVehicles" >> _class)) then {
+        [_class, "init", {
+            params ["_aircraft"];
+            [_aircraft] call ffr_main_fnc_prepAircraft;
+            _aircraft setVariable ["ffr_jumpInfo", [
+                ["source", ["ani_Rampa"]],    // _animInfo
+                [0, -4.2, -0.75]                  // _jumplightPos
+            ], true];
+        }, true, [], true] call CBA_fnc_addClassEventHandler;
+    };
+
+    _class = "ffaa_ea_hercules";
+    if (isClass (configFile >> "CfgVehicles" >> _class)) then {
+        [_class, "init", {
+            params ["_aircraft"];
+            [_aircraft] call ffr_main_fnc_prepAircraft;
+            _aircraft setVariable ["ffr_jumpInfo", [
+                ["source", ["ramp_bottom", "ramp_top"]],    // _animInfo
+                [0, -3.2, 3.87]                  // _jumplightPos
+            ], true];
+        }, true, [], true] call CBA_fnc_addClassEventHandler;
+    };
+
+    _class = "ffaa_ea_hercules_camo";
+    if (isClass (configFile >> "CfgVehicles" >> _class)) then {
+        [_class, "init", {
+            params ["_aircraft"];
+            [_aircraft] call ffr_main_fnc_prepAircraft;
+            _aircraft setVariable ["ffr_jumpInfo", [
+                ["source", ["ramp_bottom", "ramp_top"]],    // _animInfo
+                [0, -3.2, 3.87]                  // _jumplightPos
+            ], true];
+        }, true, [], true] call CBA_fnc_addClassEventHandler;
+    };
 };

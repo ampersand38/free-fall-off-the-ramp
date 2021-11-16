@@ -5,6 +5,7 @@ Creates static dummy
 
 * Arguments:
 * 0: Aircraft <OBJECT>
+* 1: Open Ramp <BOOLEAN>
 *
 * Return Value:
 * -
@@ -13,7 +14,7 @@ Creates static dummy
 * [_aircraft] call ffr_main_fnc_prepRamp = {
 */
 
-params ["_aircraft"];
+params ["_aircraft", ["_openRamp", false]];
 
 [_aircraft] call ffr_main_fnc_cleanup;
 // create static dummy
@@ -36,29 +37,32 @@ _dummy attachTo [_helper, [0, -2000, _z]];
 _aircraft setVariable ["ffr_dummy", _dummy, true];
 _dummy setVariable ["ffr_aircraft", _aircraft, true];
 
+// Open ramp
+private _jumpInfo = _aircraft getVariable "ffr_jumpInfo";
+_jumpInfo params ["_animInfo", "_jumplightPos"];
+_animInfo params ["_animType", "_anims"];
+{
+    switch (_animType) do {
+        case (""): {
+            _aircraft animate [_x, 1];
+        };
+        case ("source"): {
+            _aircraft animateSource [_x, 1];
+        };
+        case ("door"): {
+            _aircraft animateDoor [_x, 1];
+        };
+    };
+} forEach _anims;
+
 // Sync animations from aircraft to dummy
-private _animInfo = [];
-private _jumplightPos = [];
-if (_aircraft isKindOf "VTOL_01_infantry_base_F") then {
-    _animInfo = ["door", ["Door_1_source"]]; // ["_animType", "_anims"]
-    _jumplightPos = [0, -7.5, -3];
-};
-if (_aircraft isKindOf "USAF_C17") then {
-    _animInfo = ["", ["back_ramp_switch", "back_ramp", "back_ramp_st", "back_ramp_p", "back_ramp_p_2", "back_ramp_door_main"]];
-    _jumplightPos = [0, -6, 3];
-};
-if (_aircraft isKindOf "USAF_C130J") then {
-    _animInfo = ["source", ["ramp_bottom", "ramp_top"]];
-    _jumplightPos = [0, -3.2, 3.87];
-};
-if (_aircraft isKindOf "RHS_C130J") then {
-    _animInfo = ["source", ["ramp", "jumplight"]];
-    _jumplightPos = [0, -3, -2];
-};
 private _pfID = [{
     params ["_args", "_pfID"];
     _args params ["_aircraft", "_dummy", "_animInfo"];
     _animInfo params ["_animType", "_anims"];
+    {
+        [_dummy, [_x, 1]] call _fnc_animateRamp;
+    } forEach _animations;
     {
         switch (_animType) do {
             case (""): {
@@ -83,7 +87,7 @@ private _fnc_createJumplight = {
 };
 
 private _jumplight = call _fnc_createJumplight;
-_jumplight attachTo [_aircraft, _jumplightPos];
+_jumplight attachTo [_aircraft, _jumplightPos vectorAdd [0, -0.015 * speed _aircraft, 0]]; // Light position is offset and flickers due to vehicle speed
 _aircraft setVariable ["ffr_jumplight", _jumplight, true];
 _dummy setVariable ["ffr_jumplight", _jumplight, true];
 private _jumplight_dummy = call _fnc_createJumplight;
