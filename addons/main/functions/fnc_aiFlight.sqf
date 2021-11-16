@@ -59,12 +59,11 @@ for "_i" from count waypoints _grp - 1 to 0 step -1 do
 _wpPos = _rp getPos [4000, _dir - 180];
 _wpPos set [2, _alt];
 _wp = _grp addWaypoint [_wpPos, -1, 0, "IP"];
-_wp setWaypointStatements ["true", "_a = vehicle this; ['ffr_main_aiVehicleChat', [_a, 'Stand up and check equipment!']] call CBA_fnc_globalEvent; if (isNull (_a getVariable ['ffr_dummy', objNull])) then {['ffr_main_prepRamp', [_a, true]] call CBA_fnc_serverEvent;};"];
+_wp setWaypointStatements ["true", "_a = vehicle this; ['ffr_main_aiVehicleChat', [_a, 'Red Light! Stand up and check equipment!']] call CBA_fnc_globalEvent; if (isNull (_a getVariable ['ffr_dummy', objNull])) then {['ffr_main_prepRamp', [_a, true]] call CBA_fnc_serverEvent; ['ffr_main_setJumplight', [_a, 'green']] call CBA_fnc_globalEvent;};"];
 
 _wpPos = _rp getPos [2000, _dir - 180];
 _wpPos set [2, _alt];
-_wp = _grp addWaypoint [_wpPos, -1, 1, "Red Light"];
-_wp setWaypointStatements ["true", "_a = vehicle this; ['ffr_main_aiVehicleChat', [_a, 'Red Light!']] call CBA_fnc_globalEvent; ['ffr_main_setJumplight', [_a, 'red']] call CBA_fnc_globalEvent;"];
+_wp = _grp addWaypoint [_wpPos, -1, 1, ""];
 
 _wp = _grp addWaypoint [_rp, -1, 2, "RP"];
 _wp setWaypointStatements ["true", "_a = vehicle this; ['ffr_main_aiVehicleChat', [_a, 'Green Light! Go! Go! Go!']] call CBA_fnc_globalEvent; ['ffr_main_setJumplight', [_a, 'green']] call CBA_fnc_globalEvent;"];
