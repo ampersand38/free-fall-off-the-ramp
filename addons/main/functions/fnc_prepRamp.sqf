@@ -37,44 +37,32 @@ _dummy attachTo [_helper, [0, -2000, _z]];
 _aircraft setVariable ["ffr_dummy", _dummy, true];
 _dummy setVariable ["ffr_aircraft", _aircraft, true];
 
-// Sync animations from aircraft to dummy
-private _animInfo = [];
-private _jumplightPos = [];
-if (_aircraft isKindOf "VTOL_01_infantry_base_F") then {
-    _animInfo = ["door", ["Door_1_source"]]; // ["_animType", "_anims"]
-    _jumplightPos = [0, -7.5, -3];
-    if (_openRamp) then {
-        _aircraft animateDoor ["Door_1_source", 1];
-    };
-};
-if (_aircraft isKindOf "USAF_C17") then {
-    _animInfo = ["", ["back_ramp_switch", "back_ramp", "back_ramp_st", "back_ramp_p", "back_ramp_p_2", "back_ramp_door_main"]];
-    _jumplightPos = [0, -6, 3];
-    if (_openRamp) then {
-        {
+// Open ramp
+private _jumpInfo = _aircraft getVariable "ffr_jumpInfo";
+_jumpInfo params ["_animInfo", "_jumplightPos"];
+_animInfo params ["_animType", "_anims"];
+{
+    switch (_animType) do {
+        case (""): {
             _aircraft animate [_x, 1];
-        } forEach (_animInfo # 1);
+        };
+        case ("source"): {
+            _aircraft animateSource [_x, 1];
+        };
+        case ("door"): {
+            _aircraft animateDoor [_x, 1];
+        };
     };
-};
-if (_aircraft isKindOf "USAF_C130J") then {
-    _animInfo = ["source", ["ramp_bottom", "ramp_top"]];
-    _jumplightPos = [0, -3.2, 3.87];
-    if (_openRamp) then {
-        _aircraft animateSource ["ramp_top", 1];
-        _aircraft animateSource ["ramp_bottom", 1];
-    };
-};
-if (_aircraft isKindOf "RHS_C130J") then {
-    _animInfo = ["source", ["ramp", "jumplight"]];
-    _jumplightPos = [0, -3, -2];
-    if (_openRamp) then {
-        _aircraft animateSource ["ramp", 1];
-    };
-};
+} forEach _anims;
+
+// Sync animations from aircraft to dummy
 private _pfID = [{
     params ["_args", "_pfID"];
     _args params ["_aircraft", "_dummy", "_animInfo"];
     _animInfo params ["_animType", "_anims"];
+    {
+        [_dummy, [_x, 1]] call _fnc_animateRamp;
+    } forEach _animations;
     {
         switch (_animType) do {
             case (""): {
