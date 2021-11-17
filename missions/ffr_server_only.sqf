@@ -1,9 +1,9 @@
-// Global
+// Global, player is group leader and in aircraft
 if (player == leader player) then {
     private _aircraft = vehicle player;
     ffr_ai_alt = getNumber (configOf _aircraft >> "altFullForce");
-    ffr_ai_ip = getPos _aircraft;
-    ffr_ai_rp = _aircraft getPos [6000, getDir _aircraft];
+    ffr_ai_rp = getPos _aircraft;
+    ffr_ai_ip = _aircraft getPos [6000, getDir _aircraft];
 
     if (!isNil "ffr_ai_acMarker") then { deleteMarker ffr_ai_acMarker; };
     private _markerName = format ["_USER_DEFINED #%1/ffr_ai_ac/%2", clientOwner, currentChannel];
@@ -38,6 +38,9 @@ if (player == leader player) then {
         };
     }, 0.1, _aircraft] call CBA_fnc_addPerFrameHandler;
 };
+
+
+
 ffr_main_fnc_aiFlight = {
 
 
