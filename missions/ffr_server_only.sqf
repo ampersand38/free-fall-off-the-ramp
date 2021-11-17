@@ -99,7 +99,7 @@ _wpPos set [2, _alt];
 _wp = _grp addWaypoint [_wpPos, -1, 1, ""];
 
 _wp = _grp addWaypoint [_rp, -1, 2, "RP"];
-_wp setWaypointStatements ["true", "_a = vehicle this; ['ffr_main_aiVehicleChat', [_a, 'Green Light! Go! Go! Go!']] call CBA_fnc_globalEvent; ['ffr_main_setJumplight', [_a, 'green']] call CBA_fnc_globalEvent;"];
+_wp setWaypointStatements ["true", "_a = vehicle this; _a vehicleChat 'Green Light! Go! Go! Go!'; ['ffr_main_setJumplight', [_a, 'green']] call CBA_fnc_globalEvent;"];
 
 _wpPos = _rp getPos [2000, _dir];
 _wpPos set [2, _alt];
@@ -546,10 +546,6 @@ ffr_altitude_menu = isClass (configFile >> 'ffr_altitude_menu') || {isClass (mis
 ["ffr_main_prepRamp", { call ffr_main_fnc_prepRamp; }] call CBA_fnc_addEventHandler;
 ["ffr_main_setJumplight", { call ffr_main_fnc_setJumplight; }] call CBA_fnc_addEventHandler;
 ["ffr_main_aiFlight", { call ffr_main_fnc_aiFlight; }] call CBA_fnc_addEventHandler;
-["ffr_main_aiVehicleChat", {
-    params ["_aircraft", "_msg"];
-    _aircraft vehicleChat _msg;
-}] call CBA_fnc_addEventHandler;
 
 if (hasInterface) then {
     private _class = "";

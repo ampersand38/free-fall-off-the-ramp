@@ -3,10 +3,6 @@ ffr_altitude_menu = isClass (configFile >> 'ffr_altitude_menu') || {isClass (mis
 ["ffr_main_prepRamp", { call ffr_main_fnc_prepRamp; }] call CBA_fnc_addEventHandler;
 ["ffr_main_setJumplight", { call ffr_main_fnc_setJumplight; }] call CBA_fnc_addEventHandler;
 ["ffr_main_aiFlight", { call ffr_main_fnc_aiFlight; }] call CBA_fnc_addEventHandler;
-["ffr_main_aiVehicleChat", {
-    params ["_aircraft", "_msg"];
-    _aircraft vehicleChat _msg;
-}] call CBA_fnc_addEventHandler;
 
 if (hasInterface) then {
     private _class = "";
