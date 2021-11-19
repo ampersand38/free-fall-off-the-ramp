@@ -174,3 +174,27 @@ if (isClass (configFile >> "CfgVehicles" >> _class)) then {
         ]];
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 };
+
+_class = "UK3CB_BAF_Merlin_HC3_Unarmed_Base";
+if (isClass (configFile >> "CfgVehicles" >> _class)) then {
+    [_class, "init", {
+        params ["_aircraft"];
+        [_aircraft] call ffr_main_fnc_prepAircraft;
+        _aircraft setVariable ["ffr_jumpInfo", [
+            ["door", ["CargoRamp_Open"]],    // _animInfo
+            [0.21, -0.70, -0.45]                  // _jumplightPos
+        ]];
+    }, true, [], true] call CBA_fnc_addClassEventHandler;
+};
+
+_class = "sab_C130_J";
+if (isClass (configFile >> "CfgVehicles" >> _class)) then {
+    [_class, "init", {
+        params ["_aircraft"];
+        [_aircraft] call ffr_main_fnc_prepAircraft;
+        _aircraft setVariable ["ffr_jumpInfo", [
+            ["", ["ramp_bottom", "ramp_top"]],    // _animInfo
+            [0, 0.3, -2]                  // _jumplightPos
+        ]];
+    }, true, [], true] call CBA_fnc_addClassEventHandler;
+};

@@ -38,44 +38,46 @@ _unit switchMove "";
 
 [{
     params ["_args", "_pfID"];
-    _args params ["_unit", "_aircraft", "_dummy", "_time", "_rampAltitude"];
+    _args params ["_unit", "_aircraft", "_dummy", "_time", "_pos", "_timeStandSafe"];
     if (vehicle _unit == _aircraft) then {
         [_pfID] call CBA_fnc_removePerFrameHandler;
         _unit setVariable ["ffr_aircraft", nil, true];
     };
 
-    if (CBA_missionTime > _time) then {
-        _unit allowDamage true;
-    };
     private _alt = getPosASL _unit # 2;
 
     if (animationState _unit in ["halofreefall_f", "halofreefall_non"]) then {
-        if (_alt > _rampAltitude || {CBA_missionTime < _time}) then {
+        if (_alt > (_pos # 2 - 1) || {CBA_missionTime < _time}) then {
             // Fix freefall animation
             //if (ffr_testing) then { systemChat format ["Fix Freefall %1 %2", CBA_missionTime, getPosVisual _unit # 2]; };
             _unit switchMove "";
             _args set [3, CBA_missionTime + 0.5];
         } else {
-            // Return to flying aircraft
-            private _velAircraft = velocity _aircraft;
-            _unit allowDamage false;
-            private _pos = _aircraft modelToWorldVisual (_dummy worldToModelVisual (ASLToAGL getPosWorldVisual _unit));
-            private _dir = _aircraft vectorModelToWorldVisual (_dummy vectorWorldToModelVisual (vectorDir _unit));
-            private _vel_unit = velocity _unit;
-            _vel_unit set [0, 0]; _vel_unit set [1, 0];
-            private _velRelease = (_velAircraft vectorMultiply 0.9) vectorAdd _vel_unit;
+            if (CBA_missionTime < _timeStandSafe) then {
+                // Unit got squeezed out
+                _unit moveInCargo _aircraft;
+            } else {
+                // Return to flying aircraft for free fall
+                private _velAircraft = velocity _aircraft;
+                _unit allowDamage false;
+                private _pos = _aircraft modelToWorldVisual (_dummy worldToModelVisual (ASLToAGL getPosWorldVisual _unit));
+                private _dir = _aircraft vectorModelToWorldVisual (_dummy vectorWorldToModelVisual (vectorDir _unit));
+                private _vel_unit = velocity _unit;
+                _vel_unit set [0, 0]; _vel_unit set [1, 0];
+                private _velRelease = (_velAircraft vectorMultiply 0.9) vectorAdd _vel_unit;
 
-            _unit setPosASL AGLToASL _pos;
-            _unit setVectorDir _dir;
-            _unit setVelocity _velRelease;
-            _dummy hideObject true;
+                _unit setPosASL AGLToASL _pos;
+                _unit setVectorDir _dir;
+                _unit setVelocity _velRelease;
+                _dummy hideObject true;
 
-            _unit setVariable ["ffr_aircraft", nil, true];
-            [_aircraft, _unit] call ffr_main_fnc_aiJump;
-            [{
-                _this allowDamage true;
-            }, _unit, 0.5] call CBA_fnc_waitAndExecute;
+                _unit setVariable ["ffr_aircraft", nil, true];
+                [_aircraft, _unit] call ffr_main_fnc_aiJump;
+                [{
+                    _this allowDamage true;
+                }, _unit, 0.5] call CBA_fnc_waitAndExecute;
+            };
             [_pfID] call CBA_fnc_removePerFrameHandler;
         };
     };
-}, 0, [_unit, _aircraft, _dummy, CBA_missionTime + 0.5, (_pos # 2) - 1]] call CBA_fnc_addPerFrameHandler;
+}, 0, [_unit, _aircraft, _dummy, CBA_missionTime + 0.5, _pos, CBA_missionTime + 3]] call CBA_fnc_addPerFrameHandler;

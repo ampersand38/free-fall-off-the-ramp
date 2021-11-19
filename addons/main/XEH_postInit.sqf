@@ -175,7 +175,7 @@ if (isClass (configFile >> "CfgVehicles" >> _class)) then {
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 };
 
-_class = "UK3CB_BAF_Merlin_Base";
+_class = "UK3CB_BAF_Merlin_HC3_Unarmed_Base";
 if (isClass (configFile >> "CfgVehicles" >> _class)) then {
     [_class, "init", {
         params ["_aircraft"];
