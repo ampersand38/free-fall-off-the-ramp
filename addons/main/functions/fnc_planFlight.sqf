@@ -85,19 +85,27 @@ onMapSingleClick {
         missionNamespace setVariable ["ffr_ai_rpMarker", _rpMarker];
         onMapSingleClick {};
 
-        hint "Select the Release Altitude";
-        createDialog "ffr_altitude_menu";
-        private _okButton = (findDisplay 7777) displayCtrl 1;
-        private _altFullForce = getNumber (configOf vehicle player >> "altFullForce");
-        _okButton ctrlSetText (format ["Release Altitude %1 m", _altFullForce]);
-        missionNamespace setVariable ["ffr_ai_alt", _altFullForce];
-        private _slider = (findDisplay 7777) displayCtrl 1900;
-        _slider sliderSetPosition _altFullForce;
-        _slider ctrlAddEventHandler ["SliderPosChanged", {
-            params ["_control", "_newValue"];
+        if (ffr_altitude_menu) then {
+            hint "Select the Release Altitude";
+            createDialog "ffr_altitude_menu";
             private _okButton = (findDisplay 7777) displayCtrl 1;
-            _okButton ctrlSetText format ["Release Altitude %1 m", _newValue];
-            missionNamespace setVariable ["ffr_ai_alt", _newValue];
-        }];
+            private _altFullForce = getNumber (configOf vehicle player >> "altFullForce");
+            _okButton ctrlSetText (format ["Release Altitude %1 m", _altFullForce]);
+            missionNamespace setVariable ["ffr_ai_alt", _altFullForce];
+            private _slider = (findDisplay 7777) displayCtrl 1900;
+            _slider sliderSetPosition _altFullForce;
+            _slider ctrlAddEventHandler ["SliderPosChanged", {
+                params ["_control", "_newValue"];
+                private _okButton = (findDisplay 7777) displayCtrl 1;
+                _okButton ctrlSetText format ["Release Altitude %1 m", _newValue];
+                missionNamespace setVariable ["ffr_ai_alt", _newValue];
+            }];
+        } else {
+            private _altFullForce = getNumber (configOf vehicle player >> "altFullForce");
+            missionNamespace setVariable ["ffr_ai_alt", _altFullForce];
+            private _mkr = (missionNamespace getVariable 'ffr_ai_rpMarker');
+            _mkr setMarkerText format ['%1 - %2 m', markerText _mkr, _altFullForce];
+            hint 'Flight plan set';
+        };
     };
 };

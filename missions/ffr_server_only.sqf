@@ -1,46 +1,4 @@
-// Global, player is group leader and in aircraft
-if (player == leader player) then {
-    private _aircraft = vehicle player;
-    ffr_ai_alt = getNumber (configOf _aircraft >> "altFullForce");
-    ffr_ai_rp = getPos _aircraft;
-    ffr_ai_ip = _aircraft getPos [6000, getDir _aircraft];
-
-    if (!isNil "ffr_ai_acMarker") then { deleteMarker ffr_ai_acMarker; };
-    private _markerName = format ["_USER_DEFINED #%1/ffr_ai_ac/%2", clientOwner, currentChannel];
-    private _pos = getPos _aircraft;
-    private _markerText = format ["%1", groupId group _aircraft];
-    private _markerType = switch (side _aircraft) do {
-        //cases (insertable by snippet)
-        case (west): {"b_plane"};
-        case (east): {"o_plane"};
-        case (guer): {"n_plane"};
-        case (civ): {"c_plane"};
-    };
-    ffr_ai_acMarker = format [
-        "|%1|%2|%3|ICON|[1,1]|0|Solid|Default|1|%4",
-        _markerName,
-        _pos,
-        _markerType,
-        _markerText
-    ] call BIS_fnc_stringToMarkerLocal;
-    ffr_ai_acMarker setMarkerAlpha 1;
-
-    if (!isNil "ffr_ai_pfID") then {
-        [ffr_ai_pfID] call CBA_fnc_removePerFrameHandler;
-    };
-    ffr_ai_pfID = [{
-        params ["_aircraft", "_pfID"];
-        _args params ["_aircraft"];
-        ffr_ai_acMarker setMarkerPos _aircraft;
-        if (!alive _aircraft) then {
-            deleteMarker ffr_ai_acMarker;
-            [_pfID] call CBA_fnc_removePerFrameHandler;
-        };
-    }, 0.1, _aircraft] call CBA_fnc_addPerFrameHandler;
-};
-
-
-
+// Functions
 ffr_main_fnc_aiFlight = {
 
 
@@ -134,7 +92,7 @@ ffr_AIs = _AIs apply {_x};
     if (!isNull _previousAI) then { _previousAI setVelocity velocity _aircraft; };
     private _AI = _AIs # 0;
     _args set [2, _AI];
-    _AI action ["Eject", _aircraft];
+    moveOut _AI;
     _AIs deleteAt 0;
     if (count _AIs == 0) then {
         [_pfID] call CBA_fnc_removePerFrameHandler;
@@ -259,21 +217,28 @@ onMapSingleClick {
         _rpMarker setMarkerAlpha 1; // Global to send only completed marker
         missionNamespace setVariable ["ffr_ai_rpMarker", _rpMarker];
         onMapSingleClick {};
-
-        hint "Select the Release Altitude";
-        createDialog "ffr_altitude_menu";
-        private _okButton = (findDisplay 7777) displayCtrl 1;
-        private _altFullForce = getNumber (configOf vehicle player >> "altFullForce");
-        _okButton ctrlSetText (format ["Release Altitude %1 m", _altFullForce]);
-        missionNamespace setVariable ["ffr_ai_alt", _altFullForce];
-        private _slider = (findDisplay 7777) displayCtrl 1900;
-        _slider sliderSetPosition _altFullForce;
-        _slider ctrlAddEventHandler ["SliderPosChanged", {
-            params ["_control", "_newValue"];
+        if (ffr_altitude_menu) then {
+            hint "Select the Release Altitude";
+            createDialog "ffr_altitude_menu";
             private _okButton = (findDisplay 7777) displayCtrl 1;
-            _okButton ctrlSetText format ["Release Altitude %1 m", _newValue];
-            missionNamespace setVariable ["ffr_ai_alt", _newValue];
-        }];
+            private _altFullForce = getNumber (configOf vehicle player >> "altFullForce");
+            _okButton ctrlSetText (format ["Release Altitude %1 m", _altFullForce]);
+            missionNamespace setVariable ["ffr_ai_alt", _altFullForce];
+            private _slider = (findDisplay 7777) displayCtrl 1900;
+            _slider sliderSetPosition _altFullForce;
+            _slider ctrlAddEventHandler ["SliderPosChanged", {
+                params ["_control", "_newValue"];
+                private _okButton = (findDisplay 7777) displayCtrl 1;
+                _okButton ctrlSetText format ["Release Altitude %1 m", _newValue];
+                missionNamespace setVariable ["ffr_ai_alt", _newValue];
+            }];
+        } else {
+            private _altFullForce = getNumber (configOf vehicle player >> "altFullForce");
+            missionNamespace setVariable ["ffr_ai_alt", _altFullForce];
+            private _mkr = (missionNamespace getVariable 'ffr_ai_rpMarker');
+            _mkr setMarkerText format ['%1 - %2 m', markerText _mkr, _altFullForce];
+            hint 'Flight plan set';
+        };
     };
 };
 };
@@ -286,7 +251,7 @@ private _isHeli = _aircraft isKindOf "Helicopter";
 if (!_isHeli) then {
     _aircraft addAction ["Plan AI Flight", {
         call ffr_main_fnc_planFlight;
-    }, nil, 0, true, true, "", "ffr_altitude_menu && {!isNull driver _target} && { !isPlayer driver _target } && { _this in _target } && {_this == leader _this}"];
+    }, nil, 0, true, true, "", "!isNull driver _target && { !isPlayer driver _target } && { _this in _target } && {_this == leader _this}"];
 
     _aircraft addAction ["Begin AI Flight", {
         params ["_aircraft"];
@@ -475,7 +440,7 @@ switch (_state) do {
 };
 };
 ffr_main_fnc_standUp = {
-*/
+
 
 params ["_aircraft", "_unit"];
 
@@ -552,6 +517,8 @@ ffr_altitude_menu = isClass (configFile >> 'ffr_altitude_menu') || {isClass (mis
 ["ffr_main_setJumplight", { call ffr_main_fnc_setJumplight; }] call CBA_fnc_addEventHandler;
 ["ffr_main_aiFlight", { call ffr_main_fnc_aiFlight; }] call CBA_fnc_addEventHandler;
 
+
+// Aircraft specific inits
 private _cfgVehicles = configFile >> "CfgVehicles";
 private _class = "";
 
