@@ -32,7 +32,7 @@ ffr_AIs = _AIs apply {_x};
     if (!isNull _previousAI) then { _previousAI setVelocity velocity _aircraft; };
     private _AI = _AIs # 0;
     _args set [2, _AI];
-    _AI action ["Eject", _aircraft];
+    moveOut _AI;
     _AIs deleteAt 0;
     if (count _AIs == 0) then {
         [_pfID] call CBA_fnc_removePerFrameHandler;
