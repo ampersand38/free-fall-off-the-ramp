@@ -523,7 +523,7 @@ private _cfgVehicles = configFile >> "CfgVehicles";
 private _class = "";
 
 _class = "VTOL_01_infantry_base_F";
-if (isClass (_cfgVehicles >> _class)) then {
+if (isClass (configFile >> "CfgVehicles" >> _class)) then {
     [_class, "init", {
         params ["_aircraft"];
         [_aircraft] call ffr_main_fnc_prepAircraft;
@@ -535,7 +535,7 @@ if (isClass (_cfgVehicles >> _class)) then {
 };
 
 _class = "USAF_C17";
-if (isClass (_cfgVehicles >> _class)) then {
+if (isClass (configFile >> "CfgVehicles" >> _class)) then {
     [_class, "init", {
         params ["_aircraft"];
         [_aircraft] call ffr_main_fnc_prepAircraft;
@@ -547,7 +547,7 @@ if (isClass (_cfgVehicles >> _class)) then {
 };
 
 _class = "USAF_C130J";
-if (isClass (_cfgVehicles >> _class)) then {
+if (isClass (configFile >> "CfgVehicles" >> _class)) then {
     [_class, "init", {
         params ["_aircraft"];
         [_aircraft] call ffr_main_fnc_prepAircraft;
@@ -559,7 +559,7 @@ if (isClass (_cfgVehicles >> _class)) then {
 };
 
 _class = "RHS_C130J";
-if (isClass (_cfgVehicles >> _class)) then {
+if (isClass (configFile >> "CfgVehicles" >> _class)) then {
     [_class, "init", {
         params ["_aircraft"];
         [_aircraft] call ffr_main_fnc_prepAircraft;
@@ -571,7 +571,7 @@ if (isClass (_cfgVehicles >> _class)) then {
 };
 
 _class = "RHS_CH_47F";
-if (isClass (_cfgVehicles >> _class)) then {
+if (isClass (configFile >> "CfgVehicles" >> _class)) then {
     [_class, "init", {
         params ["_aircraft"];
         [_aircraft] call ffr_main_fnc_prepAircraft;
@@ -583,7 +583,7 @@ if (isClass (_cfgVehicles >> _class)) then {
 };
 
 _class = "ffaa_famet_ch47_mg";
-if (isClass (_cfgVehicles >> _class)) then {
+if (isClass (configFile >> "CfgVehicles" >> _class)) then {
     [_class, "init", {
         params ["_aircraft"];
         [_aircraft] call ffr_main_fnc_prepAircraft;
@@ -595,7 +595,7 @@ if (isClass (_cfgVehicles >> _class)) then {
 };
 
 _class = "ffaa_ea_hercules";
-if (isClass (_cfgVehicles >> _class)) then {
+if (isClass (configFile >> "CfgVehicles" >> _class)) then {
     [_class, "init", {
         params ["_aircraft"];
         [_aircraft] call ffr_main_fnc_prepAircraft;
@@ -607,7 +607,7 @@ if (isClass (_cfgVehicles >> _class)) then {
 };
 
 _class = "ffaa_ea_hercules_camo";
-if (isClass (_cfgVehicles >> _class)) then {
+if (isClass (configFile >> "CfgVehicles" >> _class)) then {
     [_class, "init", {
         params ["_aircraft"];
         [_aircraft] call ffr_main_fnc_prepAircraft;
@@ -619,7 +619,7 @@ if (isClass (_cfgVehicles >> _class)) then {
 };
 
 _class = "CUP_C130J_Base";
-if (isClass (_cfgVehicles >> _class)) then {
+if (isClass (configFile >> "CfgVehicles" >> _class)) then {
     [_class, "init", {
         params ["_aircraft"];
         [_aircraft] call ffr_main_fnc_prepAircraft;
@@ -631,7 +631,7 @@ if (isClass (_cfgVehicles >> _class)) then {
 };
 
 _class = "CUP_B_MV22_USMC";
-if (isClass (_cfgVehicles >> _class)) then {
+if (isClass (configFile >> "CfgVehicles" >> _class)) then {
     [_class, "init", {
         params ["_aircraft"];
         [_aircraft] call ffr_main_fnc_prepAircraft;
@@ -643,7 +643,7 @@ if (isClass (_cfgVehicles >> _class)) then {
 };
 
 _class = "CUP_B_MV22_USMC";
-if (isClass (_cfgVehicles >> _class)) then {
+if (isClass (configFile >> "CfgVehicles" >> _class)) then {
     [_class, "init", {
         params ["_aircraft"];
         [_aircraft] call ffr_main_fnc_prepAircraft;
@@ -655,7 +655,7 @@ if (isClass (_cfgVehicles >> _class)) then {
 };
 
 _class = "CUP_B_MV22_VIV_USMC";
-if (isClass (_cfgVehicles >> _class)) then {
+if (isClass (configFile >> "CfgVehicles" >> _class)) then {
     [_class, "init", {
         params ["_aircraft"];
         [_aircraft] call ffr_main_fnc_prepAircraft;
@@ -668,7 +668,7 @@ if (isClass (_cfgVehicles >> _class)) then {
 
 // CH47 with ramp gun doesn't let you run out
 _class = "CUP_MH47E_base";
-if (isClass (_cfgVehicles >> _class)) then {
+if (isClass (configFile >> "CfgVehicles" >> _class)) then {
     [_class, "init", {
         params ["_aircraft"];
         [_aircraft] call ffr_main_fnc_prepAircraft;
@@ -680,7 +680,7 @@ if (isClass (_cfgVehicles >> _class)) then {
 };
 
 _class = "CUP_MI6T_Base";
-if (isClass (_cfgVehicles >> _class)) then {
+if (isClass (configFile >> "CfgVehicles" >> _class)) then {
     [_class, "init", {
         params ["_aircraft"];
         [_aircraft] call ffr_main_fnc_prepAircraft;
