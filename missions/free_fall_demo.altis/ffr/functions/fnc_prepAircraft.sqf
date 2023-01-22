@@ -44,19 +44,19 @@ _aircraft addAction ["<t color='#999999'>Sit Down</t>", {
 _aircraft addAction ["<t color='#FF0000'>Jumplight Red</t>", {
     params ["_aircraft"];
     ["ffr_main_setJumplight", [_aircraft, "red"]] call CBA_fnc_globalEvent;
-}, nil, 0, false, false, "", "!isNull (_target getVariable ['ffr_jumplight', objNull]) && {!isNull (_target getVariable ['ffr_jumplight_dummy', objNull])}"];
+}, nil, 0, false, false, "", "!isNull (_target getVariable ['ffr_jumplight', objNull]) && {!isNull (_target getVariable ['ffr_jumplight_dummy', objNull]) && {_this == leader _this || {_this in group driver _target}}}"];
 
 _aircraft addAction ["<t color='#00FF00'>Jumplight Green</t>", {
     params ["_aircraft"];
     ["ffr_main_setJumplight", [_aircraft, "green"]] call CBA_fnc_globalEvent;
-}, nil, 0, false, false, "", "!isNull (_target getVariable ['ffr_jumplight', objNull]) && {!isNull (_target getVariable ['ffr_jumplight_dummy', objNull])}"];
+}, nil, 0, false, false, "", "!isNull (_target getVariable ['ffr_jumplight', objNull]) && {!isNull (_target getVariable ['ffr_jumplight_dummy', objNull]) && {_this == leader _this || {_this in group driver _target}}}"];
 
 _aircraft addAction ["<t color='#999999'>Jumplight Off</t>", {
     params ["_aircraft"];
     ["ffr_main_setJumplight", [_aircraft, "off"]] call CBA_fnc_globalEvent;
-}, nil, 0, false, false, "", "!isNull (_target getVariable ['ffr_jumplight', objNull]) && {!isNull (_target getVariable ['ffr_jumplight_dummy', objNull])}"];
+}, nil, 0, false, false, "", "!isNull (_target getVariable ['ffr_jumplight', objNull]) && {!isNull (_target getVariable ['ffr_jumplight_dummy', objNull]) && {_this == leader _this || {_this in group driver _target}}}"];
 
 _aircraft addAction ["<t color='#999999'>Secure Ramp from Free Fall</t>", {
     params ["_aircraft"];
     [_aircraft] call ffr_main_fnc_cleanUp;
-}, nil, 0, false, false, "", "!isNull (_target getVariable ['ffr_dummy', objNull]) && {!isNull (_target getVariable ['ffr_jumplight', objNull])} && {!isNull (_target getVariable ['ffr_jumplight_dummy', objNull])}"];
+}, nil, 0, false, false, "", "!isNull (_target getVariable ['ffr_dummy', objNull]) && {!isNull (_target getVariable ['ffr_jumplight', objNull])} && {!isNull (_target getVariable ['ffr_jumplight_dummy', objNull]) && {_this == leader _this || {_this in group driver _target}}}"];
