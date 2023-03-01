@@ -7,5 +7,6 @@ PREP(cleanUp);
 PREP(planFlight);
 PREP(prepAircraft);
 PREP(prepRamp);
+PREP(prepDummy);
 PREP(setJumplight);
 PREP(standUp);

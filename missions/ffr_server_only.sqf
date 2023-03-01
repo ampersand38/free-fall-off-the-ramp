@@ -238,6 +238,7 @@ onMapSingleClick {
             private _mkr = (missionNamespace getVariable 'ffr_ai_rpMarker');
             _mkr setMarkerText format ['%1 - %2 m', markerText _mkr, _altFullForce];
             hint 'Flight plan set';
+            ffr_aiFlightReady = true;
         };
     };
 };
@@ -255,23 +256,19 @@ if (!_isHeli) then {
 
     _aircraft addAction ["Begin AI Flight", {
         params ["_aircraft"];
-        ["ffr_main_aiFlight", [_aircraft, ffr_ai_alt, ffr_ai_rp, ffr_ai_ip], _aircraft] call CBA_fnc_globalEvent;
-    }, nil, 0, true, true, "", "(_target getCargoIndex _this) > -1 && {_this == leader _this} && {!isNil 'ffr_ai_alt'} && {!isNil 'ffr_ai_rp'} && {!isNil 'ffr_ai_ip'} && {isNull (_target getVariable ['ffr_dummy', objNull])}"];
+        ffr_aiFlightReady = false;
+        ["ffr_main_aiFlight", [_aircraft, ffr_ai_alt, ffr_ai_rp, ffr_ai_ip], _aircraft] call CBA_fnc_targetEvent;
+    }, nil, 0, true, true, "", "ffr_aiFlightReady"];
 };
 
 _aircraft addAction ["Prep Ramp for Free Fall", {
     params ["_aircraft"];
     ["ffr_main_prepRamp", [_aircraft]] call CBA_fnc_serverEvent;
-}, nil, 0, false, true, "", "(getPos _target # 2) > 200 && {_this == driver _target || {!isNull driver _target && {!isPlayer driver _target} && {_this == leader _this}}}"];
+}, nil, 0, false, true, "", "isNull (_target getVariable ['ffr_dummy', objNull]) && {(getPos _target # 2) > 200 && {_this == driver _target || {!isNull driver _target && {!isPlayer driver _target} && {_this == leader _this}}}}"];
 
 _aircraft addAction ["Stand Up", {
     call ffr_main_fnc_standUp;
 }, nil, 0, true, true, "", "!isNull (_target getVariable ['ffr_dummy', objNull]) && {_this in _target} && {(_target getCargoIndex _this) > -1}"];
-
-_aircraft addAction ["<t color='#999999'>Sit Down</t>", {
-    params ["_dummy", "_unit"];
-    _unit moveInCargo (_dummy getVariable "ffr_aircraft");
-}, nil, 0, true, true, "", "!isNull (_target getVariable ['ffr_aircraft', objNull])"];
 
 _aircraft addAction ["<t color='#FF0000'>Jumplight Red</t>", {
     params ["_aircraft"];
@@ -293,8 +290,20 @@ _aircraft addAction ["<t color='#999999'>Secure Ramp from Free Fall</t>", {
     [_aircraft] call ffr_main_fnc_cleanUp;
 }, nil, 0, false, false, "", "!isNull (_target getVariable ['ffr_dummy', objNull]) && {!isNull (_target getVariable ['ffr_jumplight', objNull])} && {!isNull (_target getVariable ['ffr_jumplight_dummy', objNull]) && {_this == leader _this || {_this in group driver _target}}}"];
 };
-ffr_main_fnc_prepRamp = {
 
+
+ffr_main_fnc_prepDummy = {
+
+
+if (!hasInterface) exitWith {};
+
+_this addAction ["<t color='#999999'>Sit Down</t>", {
+    params ["_dummy", "_unit"];
+    _unit moveInCargo (_dummy getVariable "ffr_aircraft");
+}, nil, 0, true, true, "", "!isNull (_target getVariable ['ffr_aircraft', objNull])"];
+};
+
+ffr_main_fnc_prepRamp = {
 
 params ["_aircraft", ["_openRamp", false]];
 
@@ -318,6 +327,8 @@ if (isMultiplayer) then {
 _dummy attachTo [_helper, [0, -2000, _z]];
 _aircraft setVariable ["ffr_dummy", _dummy, true];
 _dummy setVariable ["ffr_aircraft", _aircraft, true];
+
+["ffr_main_prepDummy", _dummy] call CBA_fnc_globalEvent;
 
 // Open ramp
 private _jumpInfo = _aircraft getVariable "ffr_jumpInfo";
@@ -444,75 +455,65 @@ ffr_main_fnc_standUp = {
 
 params ["_aircraft", "_unit"];
 
-_unit setVariable ["ffr_aircraft", _aircraft, true];
 private _dummy = _aircraft getVariable ["ffr_dummy", objNull];
 
 // Move the unit to the static dummy
-_unit allowDamage false;
-_unit disableCollisionWith _aircraft;
 private _dummy = _aircraft getVariable ["ffr_dummy", objNull];
 if (isNull _dummy) exitWith {};
+
 private _relPos = _aircraft worldToModelVisual (ASLToAGL getPosWorldVisual _unit);
 private _pos = AGLToASL (_dummy modelToWorldVisual _relPos);
 _dir = _dummy vectorModelToWorldVisual (_aircraft vectorWorldToModelVisual (vectorDir _unit));
 _dummy hideObject false;
+_unit allowDamage false;
+_unit setUnitFreefallHeight (((ASLToAGL _pos) select 2) + 5);
 moveOut _unit;
 _unit setPosASL _pos;
 _unit setVelocity [0,0,0];
 //if (ffr_testing) then { systemChat "TP to dummy"; };
 _unit setVectorDir _dir;
 _unit switchMove "";
+
 [{ _this allowDamage true; }, _unit, 2] call CBA_fnc_waitAndExecute;
 
 [{
     params ["_args", "_pfID"];
-    _args params ["_unit", "_aircraft", "_dummy", "_time", "_pos", "_timeStandSafe"];
-    if (vehicle _unit == _aircraft) then {
-        [_pfID] call CBA_fnc_removePerFrameHandler;
-        _unit setVariable ["ffr_aircraft", nil, true];
-    };
+    _args params ["_unit", "_aircraft", "_dummy", "_height", "_timeStandSafe"];
 
     private _alt = getPosASL _unit # 2;
 
-    if (animationState _unit in ["halofreefall_f", "halofreefall_non"]) then {
-        if (_alt > (_pos # 2 - 1) || {CBA_missionTime < _time}) then {
-            // Fix freefall animation
-            //if (ffr_testing) then { systemChat format ["Fix Freefall %1 %2", CBA_missionTime, getPosVisual _unit # 2]; };
-            _unit switchMove "";
-            _args set [3, CBA_missionTime + 0.5];
-        } else {
-            if (CBA_missionTime < _timeStandSafe) then {
-                // Unit got squeezed out
-                _unit moveInCargo _aircraft;
-            } else {
-                // Return to flying aircraft for free fall
-                private _velAircraft = velocity _aircraft;
-                _unit allowDamage false;
-                private _pos = _aircraft modelToWorldVisual (_dummy worldToModelVisual (ASLToAGL getPosWorldVisual _unit));
-                private _dir = _aircraft vectorModelToWorldVisual (_dummy vectorWorldToModelVisual (vectorDir _unit));
-                private _vel_unit = velocity _unit;
-                _vel_unit set [0, 0]; _vel_unit set [1, 0];
-                private _velRelease = (_velAircraft vectorMultiply 0.9) vectorAdd _vel_unit;
+    if (vehicle _unit != _aircraft && {_alt > _height}) exitWith {}; // Safe
 
-                _unit setPosASL AGLToASL _pos;
-                _unit setVectorDir _dir;
-                _unit setVelocity _velRelease;
-                _dummy hideObject true;
+    [_pfID] call CBA_fnc_removePerFrameHandler;
+    _unit setUnitFreefallHeight -1;
 
-                _unit setVariable ["ffr_aircraft", nil, true];
-                [_aircraft, _unit] call ffr_main_fnc_aiJump;
-                [{
-                    _this allowDamage true;
-                }, _unit, 0.5] call CBA_fnc_waitAndExecute;
-            };
-            [_pfID] call CBA_fnc_removePerFrameHandler;
-        };
+    // Unit got squeezed out
+    if (CBA_missionTime < _timeStandSafe) exitWith {
+        _unit moveInCargo _aircraft;
     };
-}, 0, [_unit, _aircraft, _dummy, CBA_missionTime + 0.5, _pos, CBA_missionTime + 3]] call CBA_fnc_addPerFrameHandler;
+
+    // Return to flying aircraft for free fall
+    private _velAircraft = velocity _aircraft;
+    _unit allowDamage false;
+    private _pos = _aircraft modelToWorldVisualWorld (_dummy worldToModelVisual (ASLToAGL getPosWorldVisual _unit));
+    private _dir = _aircraft vectorModelToWorldVisual (_dummy vectorWorldToModelVisual (vectorDir _unit));
+    private _vel_unit = velocity _unit # 2;
+    private _velRelease = (_velAircraft vectorMultiply 0.9) vectorAdd [0, 0, _vel_unit];
+
+    _unit setPosASL _pos;
+    _unit setVectorDir _dir;
+    _unit setVelocity _velRelease;
+    _dummy hideObject true;
+
+    [_aircraft, _unit] call ffr_main_fnc_aiJump;
+
+    [{_this allowDamage true;}, _unit, 0.5] call CBA_fnc_waitAndExecute;
+}, 0, [_unit, _aircraft, _dummy, _pos # 2 - 2, CBA_missionTime + 5]] call CBA_fnc_addPerFrameHandler;
 };
 
 ffr_altitude_menu = isClass (configFile >> 'ffr_altitude_menu') || {isClass (missionConfigFile >> 'ffr_altitude_menu')};
 
+["ffr_main_prepDummy", { call ffr_main_fnc_prepDummy; }] call CBA_fnc_addEventHandler;
 ["ffr_main_prepRamp", { call ffr_main_fnc_prepRamp; }] call CBA_fnc_addEventHandler;
 ["ffr_main_setJumplight", { call ffr_main_fnc_setJumplight; }] call CBA_fnc_addEventHandler;
 ["ffr_main_aiFlight", { call ffr_main_fnc_aiFlight; }] call CBA_fnc_addEventHandler;

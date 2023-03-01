@@ -18,6 +18,9 @@ class ffr_main {
         class prepRamp {
             file = "ffr\functions\fnc_prepRamp.sqf";
         };
+        class prepDummy {
+            file = "ffr\functions\fnc_prepDummy.sqf";
+        };
         class setJumplight {
             file = "ffr\functions\fnc_setJumplight.sqf";
         };

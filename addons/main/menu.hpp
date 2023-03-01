@@ -57,7 +57,7 @@ class ffr_altitude_menu {
         		0.09,
         		1
         	};
-            action = "private _mkr = (missionNamespace getVariable 'ffr_ai_rpMarker'); _mkr setMarkerText format ['%1 - %2 m', markerText _mkr, ffr_ai_alt]; hint 'Flight plan set'";
+            action = "private _mkr = (missionNamespace getVariable 'ffr_ai_rpMarker'); _mkr setMarkerText format ['%1 - %2 m', markerText _mkr, ffr_ai_alt]; hint 'Flight plan set'; ffr_aiFlightReady = true;";
         };
     };
 };

@@ -37,6 +37,8 @@ _dummy attachTo [_helper, [0, -2000, _z]];
 _aircraft setVariable ["ffr_dummy", _dummy, true];
 _dummy setVariable ["ffr_aircraft", _aircraft, true];
 
+["ffr_main_prepDummy", _dummy] call CBA_fnc_globalEvent;
+
 // Open ramp
 private _jumpInfo = _aircraft getVariable "ffr_jumpInfo";
 _jumpInfo params ["_animInfo", "_jumplightPos"];

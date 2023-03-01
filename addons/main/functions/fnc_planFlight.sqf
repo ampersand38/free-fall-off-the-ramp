@@ -106,6 +106,7 @@ onMapSingleClick {
             private _mkr = (missionNamespace getVariable 'ffr_ai_rpMarker');
             _mkr setMarkerText format ['%1 - %2 m', markerText _mkr, _altFullForce];
             hint 'Flight plan set';
+            ffr_aiFlightReady = true;
         };
     };
 };
