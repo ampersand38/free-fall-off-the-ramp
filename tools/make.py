@@ -72,7 +72,7 @@ dssignfile = ""
 prefix = "ffr"
 pbo_name_prefix = "ffr_"
 signature_blacklist = []
-importantFiles = ["mod.cpp", "README.md", "AUTHORS.txt", "LICENSE", "logo_ffr_ca.paa"]
+importantFiles = ["mod.cpp", "README.md", "AUTHORS.txt", "LICENSE", "logo_ampersand_ca.paa"]
 versionFiles = ["README.md", "mod.cpp"]
 
 ciBuild = False # Used for CI builds
