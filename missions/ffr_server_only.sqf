@@ -294,13 +294,18 @@ _aircraft addAction ["<t color='#999999'>Secure Ramp from Free Fall</t>", {
 
 ffr_main_fnc_prepDummy = {
 
-
 if (!hasInterface) exitWith {};
 
 _this addAction ["<t color='#999999'>Sit Down</t>", {
     params ["_dummy", "_unit"];
-    _unit moveInCargo (_dummy getVariable "ffr_aircraft");
+    private _aircraft = _dummy getVariable "ffr_aircraft";
+    [{
+        params ["_unit", "_aircraft"];
+        _unit moveInCargo _aircraft;
+        vehicle _unti == _aircraft
+    }, {}, [_unit, _aircraft], 5] call CBA_fnc_waitUntilAndExecute;
 }, nil, 0, true, true, "", "!isNull (_target getVariable ['ffr_aircraft', objNull])"];
+
 };
 
 ffr_main_fnc_prepRamp = {
