@@ -16,7 +16,6 @@ class ffr_altitude_menu {
             sliderStep = 500;
         	deletable = 0;
         	fade = 0;
-        	access = 0;
         	type = 3;
         	style = 1024;
         	color[] =
