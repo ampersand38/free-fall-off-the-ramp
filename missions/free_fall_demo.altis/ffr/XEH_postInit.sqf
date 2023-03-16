@@ -188,6 +188,18 @@ if (isClass (configFile >> "CfgVehicles" >> _class)) then {
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 };
 
+_class = "I_IBrasilAirForceLizard_C130_Hercules_01";
+if (isClass (configFile >> "CfgVehicles" >> _class)) then {
+    [_class, "init", {
+        params ["_aircraft"];
+        [_aircraft] call ffr_main_fnc_prepAircraft;
+        _aircraft setVariable ["ffr_jumpInfo", [
+            ["", ["ramp_bottom", "ramp_top"]],    // _animInfo
+            [0, -4.6, -2]                  // _jumplightPos
+        ]];
+    }, true, [], true] call CBA_fnc_addClassEventHandler;
+};
+
 _class = "sab_C130_J";
 if (isClass (configFile >> "CfgVehicles" >> _class)) then {
     [_class, "init", {

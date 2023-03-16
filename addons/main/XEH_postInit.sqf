@@ -1,3 +1,7 @@
+/*
+vehicle player worldToModel positionCameraToWorld [0,0,0]
+*/
+
 ffr_altitude_menu = isClass (configFile >> 'ffr_altitude_menu') || {isClass (missionConfigFile >> 'ffr_altitude_menu')};
 
 ["ffr_main_prepDummy", { call ffr_main_fnc_prepDummy; }] call CBA_fnc_addEventHandler;
@@ -184,6 +188,18 @@ if (isClass (configFile >> "CfgVehicles" >> _class)) then {
         _aircraft setVariable ["ffr_jumpInfo", [
             ["door", ["CargoRamp_Open"]],    // _animInfo
             [0.21, -0.70, -0.45]                  // _jumplightPos
+        ]];
+    }, true, [], true] call CBA_fnc_addClassEventHandler;
+};
+
+_class = "I_IBrasilAirForceLizard_C130_Hercules_01";
+if (isClass (configFile >> "CfgVehicles" >> _class)) then {
+    [_class, "init", {
+        params ["_aircraft"];
+        [_aircraft] call ffr_main_fnc_prepAircraft;
+        _aircraft setVariable ["ffr_jumpInfo", [
+            ["", ["ramp_bottom", "ramp_top"]],    // _animInfo
+            [0, -4.6, -2]                  // _jumplightPos
         ]];
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 };
