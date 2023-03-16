@@ -23,7 +23,7 @@ private _markerType = switch (side _aircraft) do {
     //cases (insertable by snippet)
     case (west): {"b_plane"};
     case (east): {"o_plane"};
-    case (guer): {"n_plane"};
+    case (independent): {"n_plane"};
     case (civ): {"c_plane"};
 };
 ffr_ai_acMarker = format [
