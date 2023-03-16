@@ -450,12 +450,11 @@ switch (_state) do {
     };
 };
 };
+
+
 ffr_main_fnc_standUp = {
 
-
 params ["_aircraft", "_unit"];
-
-private _dummy = _aircraft getVariable ["ffr_dummy", objNull];
 
 // Move the unit to the static dummy
 private _dummy = _aircraft getVariable ["ffr_dummy", objNull];

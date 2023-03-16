@@ -16,8 +16,6 @@ Move unit out of aicraft seat to standing in static dummy.
 
 params ["_aircraft", "_unit"];
 
-private _dummy = _aircraft getVariable ["ffr_dummy", objNull];
-
 // Move the unit to the static dummy
 private _dummy = _aircraft getVariable ["ffr_dummy", objNull];
 if (isNull _dummy) exitWith {};
