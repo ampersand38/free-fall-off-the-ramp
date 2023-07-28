@@ -211,7 +211,7 @@ if (isClass (configFile >> "CfgVehicles" >> _class)) then {
         [_aircraft] call ffr_main_fnc_prepAircraft;
         _aircraft setVariable ["ffr_jumpInfo", [
             ["", ["ramp_bottom", "ramp_top"]],    // _animInfo
-            [0, -4.6, -2]                  // _jumplightPos
+            [0,-5.36811,-0.355289]                  // _jumplightPos
         ]];
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 };

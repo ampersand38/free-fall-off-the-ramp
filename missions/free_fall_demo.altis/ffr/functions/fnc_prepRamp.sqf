@@ -42,17 +42,17 @@ _dummy setVariable ["ffr_aircraft", _aircraft, true];
 // Open ramp
 private _jumpInfo = _aircraft getVariable "ffr_jumpInfo";
 _jumpInfo params ["_animInfo", "_jumplightPos"];
-_animInfo params ["_animType", "_anims"];
+_animInfo params ["_animType", "_anims", ["_animPhase", 1]];
 {
     switch (_animType) do {
         case (""): {
-            _aircraft animate [_x, 1];
+            _aircraft animate [_x, _animPhase];
         };
         case ("source"): {
-            _aircraft animateSource [_x, 1];
+            _aircraft animateSource [_x, _animPhase];
         };
         case ("door"): {
-            _aircraft animateDoor [_x, 1];
+            _aircraft animateDoor [_x, _animPhase];
         };
     };
 } forEach _anims;
