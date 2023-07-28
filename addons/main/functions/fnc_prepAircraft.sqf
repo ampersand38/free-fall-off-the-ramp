@@ -35,7 +35,7 @@ _aircraft addAction ["Prep Ramp for Free Fall", {
 
 _aircraft addAction ["Stand Up", {
     call ffr_main_fnc_standUp;
-}, nil, 0, true, true, "", "!isNull (_target getVariable ['ffr_dummy', objNull]) && {_this in _target} && {(_target getCargoIndex _this) > -1}"];
+}, nil, 0, true, true, "", "!isNull (_target getVariable ['ffr_dummy', objNull]) && {_this in _target} && {_this != driver _target}"];
 
 _aircraft addAction ["<t color='#FF0000'>Jumplight Red</t>", {
     params ["_aircraft"];

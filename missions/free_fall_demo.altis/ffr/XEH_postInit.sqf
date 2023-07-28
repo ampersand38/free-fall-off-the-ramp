@@ -188,6 +188,18 @@ if (isClass (configFile >> "CfgVehicles" >> _class)) then {
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 };
 
+_class = "TF373_SOAR_MH47G";
+if (isClass (configFile >> "CfgVehicles" >> _class)) then {
+    [_class, "init", {
+        params ["_aircraft"];
+        [_aircraft] call ffr_main_fnc_prepAircraft;
+        _aircraft setVariable ["ffr_jumpInfo", [
+            ["", ["Ramp"], 0],    // _animInfo
+            [0.21, -0.70, -0.45]                  // _jumplightPos
+        ]];
+    }, true, [], true] call CBA_fnc_addClassEventHandler;
+};
+
 _class = "I_IBrasilAirForceLizard_C130_Hercules_01";
 if (isClass (configFile >> "CfgVehicles" >> _class)) then {
     [_class, "init", {
