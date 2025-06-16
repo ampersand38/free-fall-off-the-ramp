@@ -7,10 +7,10 @@ class ffr_altitude_menu {
         {
         	idc = 1900;
         	text = "Altitude"; //--- ToDo: Localize;
-        	x = 0.296875 * safezoneW + safezoneX;
-        	y = 0.4375 * safezoneH + safezoneY;
-        	w = 0.41025 * safezoneW;
-        	h = 0.055 * safezoneH;
+        	x = "0.296875 * safezoneW + safezoneX";
+        	y = "0.4375 * safezoneH + safezoneY";
+        	w = "0.41025 * safezoneW";
+        	h = "0.055 * safezoneH";
             sliderPosition = 10000;
             sliderRange[] = {1000, 15000};
             sliderStep = 500;
@@ -36,10 +36,10 @@ class ffr_altitude_menu {
         };
         class ffr_altitude_ok: RscButtonMenuOK
         {
-        	x = 0.296875 * safezoneW + safezoneX;
-        	y = 0.510417 * safezoneH + safezoneY;
-        	w = 0.41025 * safezoneW;
-        	h = 0.055 * safezoneH;
+        	x = "0.296875 * safezoneW + safezoneX";
+        	y = "0.510417 * safezoneH + safezoneY";
+        	w = "0.41025 * safezoneW";
+        	h = "0.055 * safezoneH";
         	idc = 1;
         	shortcuts[] =
         	{

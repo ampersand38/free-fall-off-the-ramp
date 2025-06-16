@@ -275,3 +275,15 @@ if (isClass (configFile >> "CfgVehicles" >> _class)) then {
         ]];
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 };
+
+_class = "JK_C130_base_F";
+if (isClass (configFile >> "CfgVehicles" >> _class)) then {
+    [_class, "init", {
+        params ["_aircraft"];
+        [_aircraft] call ffr_main_fnc_prepAircraft;
+        _aircraft setVariable ["ffr_jumpInfo", [
+            ["source", ["ramp_bottom", "ramp_top"]],    // _animInfo
+            [0, -3.2, 3.87]                  // _jumplightPos
+        ]];
+    }, true, [], true] call CBA_fnc_addClassEventHandler;
+};

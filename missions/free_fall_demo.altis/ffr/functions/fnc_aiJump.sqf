@@ -53,7 +53,7 @@ ffr_ai_playerEH = ["vehicle", {
                 if ((getPosASL _x # 2) > ffr_ai_openingAlt) then {
                     _done = false;
                 } else {
-                    if (vehicle _x == _x) then {
+                    if (isNull objectParent _x) then {
                         private _vel = velocity _x;
                         _chute = typeOf vehicle player createVehicle [0, 0, 100];
                         _chute setPosASL getPosASL _x;

@@ -1,0 +1,202 @@
+2025-06-16T21:03:19.773799Z TRACE ThreadId(01) version: 1.16.1
+2025-06-16T21:03:19.773901Z TRACE ThreadId(01) platform: windows
+2025-06-16T21:03:19.773921Z TRACE ThreadId(01) args: [
+    "C:\\Program Files (x86)\\Mikero\\DePboTools\\bin\\hemtt.exe",
+    "release",
+]
+2025-06-16T21:03:19.775607Z TRACE ThreadId(01) using temporary folder: "C:\\Users\\amper\\AppData\\Local\\Temp\\hemtt\\Documents_GitHub_free-fall-off-the-ramp"
+2025-06-16T21:03:19.775623Z TRACE ThreadId(01) using project folder: "E:\\Documents\\GitHub\\free-fall-off-the-ramp"
+2025-06-16T21:03:19.775700Z TRACE ThreadId(01) using out folder: "E:\\Documents\\GitHub\\free-fall-off-the-ramp\\.hemttout"
+2025-06-16T21:03:19.775911Z TRACE ThreadId(01) using build folder: "E:\\Documents\\GitHub\\free-fall-off-the-ramp\\.hemttout\\release"
+2025-06-16T21:03:19.779311Z TRACE ThreadId(01) Prefix: VfsPath { path: "/include/x/cba/addons/xeh/$PBOPREFIX$", fs: VFS { fs: OverlayFS { layers: [VfsPath { path: "", fs: VFS { fs: In Memory File System } }, VfsPath { path: "", fs: VFS { fs: AltrootFS { root: VfsPath { path: "", fs: VFS { fs: PhysicalFS { root: "E:\\Documents\\GitHub\\free-fall-off-the-ramp\\include" } } } } } }, VfsPath { path: "", fs: VFS { fs: AltrootFS { root: VfsPath { path: "", fs: VFS { fs: PhysicalFS { root: "C:\\Users\\amper\\AppData\\Local\\Temp\\hemtt\\Documents_GitHub_free-fall-off-the-ramp\\hemtt_binarize_output" } } } } } }, VfsPath { path: "", fs: VFS { fs: AltrootFS { root: VfsPath { path: "", fs: VFS { fs: PhysicalFS { root: "E:\\Documents\\GitHub\\free-fall-off-the-ramp" } } } } } }] } } }
+2025-06-16T21:03:19.780494Z TRACE ThreadId(01) Prefix: VfsPath { path: "/include/x/cba/addons/main/$PBOPREFIX$", fs: VFS { fs: OverlayFS { layers: [VfsPath { path: "", fs: VFS { fs: In Memory File System } }, VfsPath { path: "", fs: VFS { fs: AltrootFS { root: VfsPath { path: "", fs: VFS { fs: PhysicalFS { root: "E:\\Documents\\GitHub\\free-fall-off-the-ramp\\include" } } } } } }, VfsPath { path: "", fs: VFS { fs: AltrootFS { root: VfsPath { path: "", fs: VFS { fs: PhysicalFS { root: "C:\\Users\\amper\\AppData\\Local\\Temp\\hemtt\\Documents_GitHub_free-fall-off-the-ramp\\hemtt_binarize_output" } } } } } }, VfsPath { path: "", fs: VFS { fs: AltrootFS { root: VfsPath { path: "", fs: VFS { fs: PhysicalFS { root: "E:\\Documents\\GitHub\\free-fall-off-the-ramp" } } } } } }] } } }
+2025-06-16T21:03:19.783947Z TRACE ThreadId(01) config.cpp: VfsPath { path: "/addons/main/config.cpp", fs: VFS { fs: OverlayFS { layers: [VfsPath { path: "", fs: VFS { fs: In Memory File System } }, VfsPath { path: "", fs: VFS { fs: AltrootFS { root: VfsPath { path: "", fs: VFS { fs: PhysicalFS { root: "E:\\Documents\\GitHub\\free-fall-off-the-ramp\\include" } } } } } }, VfsPath { path: "", fs: VFS { fs: AltrootFS { root: VfsPath { path: "", fs: VFS { fs: PhysicalFS { root: "C:\\Users\\amper\\AppData\\Local\\Temp\\hemtt\\Documents_GitHub_free-fall-off-the-ramp\\hemtt_binarize_output" } } } } } }, VfsPath { path: "", fs: VFS { fs: AltrootFS { root: VfsPath { path: "", fs: VFS { fs: PhysicalFS { root: "E:\\Documents\\GitHub\\free-fall-off-the-ramp" } } } } } }] } } }
+2025-06-16T21:03:19.784480Z TRACE ThreadId(01) Prefix: VfsPath { path: "/addons/main/$PBOPREFIX$", fs: VFS { fs: OverlayFS { layers: [VfsPath { path: "", fs: VFS { fs: In Memory File System } }, VfsPath { path: "", fs: VFS { fs: AltrootFS { root: VfsPath { path: "", fs: VFS { fs: PhysicalFS { root: "E:\\Documents\\GitHub\\free-fall-off-the-ramp\\include" } } } } } }, VfsPath { path: "", fs: VFS { fs: AltrootFS { root: VfsPath { path: "", fs: VFS { fs: PhysicalFS { root: "C:\\Users\\amper\\AppData\\Local\\Temp\\hemtt\\Documents_GitHub_free-fall-off-the-ramp\\hemtt_binarize_output" } } } } } }, VfsPath { path: "", fs: VFS { fs: AltrootFS { root: VfsPath { path: "", fs: VFS { fs: PhysicalFS { root: "E:\\Documents\\GitHub\\free-fall-off-the-ramp" } } } } } }] } } }
+2025-06-16T21:03:19.787726Z TRACE ThreadId(01) checking for version macro in VfsPath { path: "/addons/main/script_version.hpp", fs: VFS { fs: OverlayFS { layers: [VfsPath { path: "", fs: VFS { fs: In Memory File System } }, VfsPath { path: "", fs: VFS { fs: AltrootFS { root: VfsPath { path: "", fs: VFS { fs: PhysicalFS { root: "E:\\Documents\\GitHub\\free-fall-off-the-ramp\\include" } } } } } }, VfsPath { path: "", fs: VFS { fs: AltrootFS { root: VfsPath { path: "", fs: VFS { fs: PhysicalFS { root: "C:\\Users\\amper\\AppData\\Local\\Temp\\hemtt\\Documents_GitHub_free-fall-off-the-ramp\\hemtt_binarize_output" } } } } } }, VfsPath { path: "", fs: VFS { fs: AltrootFS { root: VfsPath { path: "", fs: VFS { fs: PhysicalFS { root: "E:\\Documents\\GitHub\\free-fall-off-the-ramp" } } } } } }] } } }
+2025-06-16T21:03:19.794887Z  INFO ThreadId(01) Config loaded for Free Fall Off The Ramp 1.0.9.0-65e80f28
+2025-06-16T21:03:19.795056Z TRACE ThreadId(01) Scanning E:\Documents\GitHub\free-fall-off-the-ramp\addons for addons
+2025-06-16T21:03:19.795530Z TRACE ThreadId(01) phase: init (BOM Check) (start)
+2025-06-16T21:03:19.795544Z TRACE ThreadId(01) phase: init (BOM Check) (done)
+2025-06-16T21:03:19.795548Z TRACE ThreadId(01) phase: init (Hooks) (start)
+2025-06-16T21:03:19.795612Z TRACE ThreadId(01) no hooks folder
+2025-06-16T21:03:19.795618Z TRACE ThreadId(01) phase: init (Hooks) (done)
+2025-06-16T21:03:19.795622Z TRACE ThreadId(01) phase: init (Binarize) (start)
+2025-06-16T21:03:19.795629Z TRACE ThreadId(01) Using Binarize path from registry
+2025-06-16T21:03:19.796315Z TRACE ThreadId(01) junction link "C:\\Users\\amper\\AppData\\Local\\Temp\\hemtt\\Documents_GitHub_free-fall-off-the-ramp\\z\\ffr\\addons\\main" => "E:\\Documents\\GitHub\\free-fall-off-the-ramp\\addons\\main"
+2025-06-16T21:03:19.811711Z TRACE ThreadId(01) junction link "C:\\Users\\amper\\AppData\\Local\\Temp\\hemtt\\Documents_GitHub_free-fall-off-the-ramp\\x\\cba" => "E:\\Documents\\GitHub\\free-fall-off-the-ramp\\include\\x\\cba"
+2025-06-16T21:03:19.825964Z TRACE ThreadId(01) phase: init (Binarize) (done)
+2025-06-16T21:03:19.825977Z TRACE ThreadId(01) phase: init (Files) (start)
+2025-06-16T21:03:19.825982Z TRACE ThreadId(01) phase: init (Files) (done)
+2025-06-16T21:03:19.825985Z TRACE ThreadId(01) phase: init (Sign) (start)
+2025-06-16T21:03:19.825988Z TRACE ThreadId(01) phase: init (Sign) (done)
+2025-06-16T21:03:19.825991Z TRACE ThreadId(01) phase: init (Rapifier) (start)
+2025-06-16T21:03:19.825995Z TRACE ThreadId(01) phase: init (Rapifier) (done)
+2025-06-16T21:03:19.825998Z TRACE ThreadId(01) phase: init (SQF) (start)
+2025-06-16T21:03:20.227135Z TRACE ThreadId(01) phase: init (SQF) (done)
+2025-06-16T21:03:20.227148Z TRACE ThreadId(01) phase: init (Stringtables) (start)
+2025-06-16T21:03:20.227152Z TRACE ThreadId(01) phase: init (Stringtables) (done)
+2025-06-16T21:03:20.227156Z TRACE ThreadId(01) phase: check (BOM Check) (start)
+2025-06-16T21:03:20.229112Z TRACE ThreadId(01) phase: check (BOM Check) (done)
+2025-06-16T21:03:20.229120Z TRACE ThreadId(01) phase: check (Hooks) (start)
+2025-06-16T21:03:20.229123Z TRACE ThreadId(01) phase: check (Hooks) (done)
+2025-06-16T21:03:20.229127Z TRACE ThreadId(01) phase: check (Binarize) (start)
+2025-06-16T21:03:20.238095Z  INFO ThreadId(01) Validated 0 files for binarization
+2025-06-16T21:03:20.238107Z TRACE ThreadId(01) phase: check (Binarize) (done)
+2025-06-16T21:03:20.238111Z TRACE ThreadId(01) phase: check (Files) (start)
+2025-06-16T21:03:20.238115Z TRACE ThreadId(01) phase: check (Files) (done)
+2025-06-16T21:03:20.238118Z TRACE ThreadId(01) phase: check (Sign) (start)
+2025-06-16T21:03:20.239883Z TRACE ThreadId(01) phase: check (Sign) (done)
+2025-06-16T21:03:20.239891Z TRACE ThreadId(01) phase: check (Rapifier) (start)
+2025-06-16T21:03:20.239962Z TRACE ThreadId(01) phase: check (Rapifier) (done)
+2025-06-16T21:03:20.239966Z TRACE ThreadId(01) phase: check (SQF) (start)
+2025-06-16T21:03:20.240047Z TRACE ThreadId(01) phase: check (SQF) (done)
+2025-06-16T21:03:20.240051Z TRACE ThreadId(01) phase: check (Stringtables) (start)
+2025-06-16T21:03:20.240082Z TRACE ThreadId(01) phase: check (Stringtables) (done)
+2025-06-16T21:03:20.240086Z TRACE ThreadId(01) phase: pre_build (BOM Check) (start)
+2025-06-16T21:03:20.240089Z TRACE ThreadId(01) phase: pre_build (BOM Check) (done)
+2025-06-16T21:03:20.240095Z TRACE ThreadId(01) phase: pre_build (Hooks) (start)
+2025-06-16T21:03:20.240102Z TRACE ThreadId(01) phase: pre_build (Hooks) (done)
+2025-06-16T21:03:20.240106Z TRACE ThreadId(01) phase: pre_build (Binarize) (start)
+2025-06-16T21:03:20.240454Z  INFO ThreadId(01) Binarized 0 files
+2025-06-16T21:03:20.240466Z TRACE ThreadId(01) phase: pre_build (Binarize) (done)
+2025-06-16T21:03:20.240471Z TRACE ThreadId(01) phase: pre_build (Files) (start)
+2025-06-16T21:03:20.240474Z TRACE ThreadId(01) phase: pre_build (Files) (done)
+2025-06-16T21:03:20.240477Z TRACE ThreadId(01) phase: pre_build (Sign) (start)
+2025-06-16T21:03:20.240481Z TRACE ThreadId(01) phase: pre_build (Sign) (done)
+2025-06-16T21:03:20.240484Z TRACE ThreadId(01) phase: pre_build (Rapifier) (start)
+2025-06-16T21:03:20.278034Z  INFO ThreadId(01) Rapified 1 addon configs
+2025-06-16T21:03:20.278065Z TRACE ThreadId(01) phase: pre_build (Rapifier) (done)
+2025-06-16T21:03:20.278070Z TRACE ThreadId(01) phase: pre_build (SQF) (start)
+2025-06-16T21:03:20.292013Z TRACE ThreadId(03) sqf compiling /addons/main/XEH_preStart.sqf
+2025-06-16T21:03:20.292022Z TRACE ThreadId(10) sqf compiling /addons/main/functions/fnc_prepRamp.sqf
+2025-06-16T21:03:20.292019Z TRACE ThreadId(04) sqf compiling /addons/main/functions/fnc_prepDummy.sqf
+2025-06-16T21:03:20.292019Z TRACE ThreadId(08) sqf compiling /addons/main/XEH_postInit.sqf
+2025-06-16T21:03:20.292018Z TRACE ThreadId(06) sqf compiling /addons/main/XEH_preInit.sqf
+2025-06-16T21:03:20.292012Z TRACE ThreadId(05) sqf compiling /addons/main/functions/fnc_aiJump.sqf
+2025-06-16T21:03:20.292018Z TRACE ThreadId(07) sqf compiling /addons/main/functions/fnc_planFlight.sqf
+2025-06-16T21:03:20.292019Z TRACE ThreadId(09) sqf compiling /addons/main/functions/fnc_setJumplight.sqf
+2025-06-16T21:03:20.306408Z TRACE ThreadId(04) sqf compiling /addons/main/functions/fnc_cleanUp.sqf
+2025-06-16T21:03:20.308427Z TRACE ThreadId(09) sqf compiling /addons/main/functions/fnc_prepAircraft.sqf
+2025-06-16T21:03:20.310432Z TRACE ThreadId(04) sqf compiling /addons/main/functions/fnc_standUp.sqf
+2025-06-16T21:03:20.317669Z TRACE ThreadId(05) sqf compiling /addons/main/functions/fnc_aiFlight.sqf
+2025-06-16T21:03:20.353392Z  INFO ThreadId(01) Compiled 12 sqf files
+2025-06-16T21:03:20.353456Z TRACE ThreadId(01) phase: pre_build (SQF) (done)
+2025-06-16T21:03:20.353463Z TRACE ThreadId(01) phase: pre_build (Stringtables) (start)
+2025-06-16T21:03:20.359998Z  INFO ThreadId(01) Checked 0 stringtables
+2025-06-16T21:03:20.360026Z TRACE ThreadId(01) phase: pre_build (Stringtables) (done)
+2025-06-16T21:03:20.360032Z TRACE ThreadId(01) phase: build (start)
+2025-06-16T21:03:20.362482Z DEBUG ThreadId(01) creating "E:\\Documents\\GitHub\\free-fall-off-the-ramp\\.hemttout\\release\\addons"
+2025-06-16T21:03:20.362723Z DEBUG ThreadId(01) building "addons/main" => "E:\\Documents\\GitHub\\free-fall-off-the-ramp\\.hemttout\\release\\addons\\ffr_main.pbo"
+2025-06-16T21:03:20.367815Z TRACE ThreadId(01) adding file "README.md"
+2025-06-16T21:03:20.368208Z TRACE ThreadId(01) adding file "XEH_postInit.sqf"
+2025-06-16T21:03:20.368632Z TRACE ThreadId(01) adding file "script_mod.hpp"
+2025-06-16T21:03:20.368987Z TRACE ThreadId(01) adding file "XEH_preStart.sqf"
+2025-06-16T21:03:20.369358Z TRACE ThreadId(01) adding file "config.bin"
+2025-06-16T21:03:20.370132Z TRACE ThreadId(01) adding file "script_macros.hpp"
+2025-06-16T21:03:20.370502Z TRACE ThreadId(01) adding file "CfgEventHandlers.hpp"
+2025-06-16T21:03:20.370905Z TRACE ThreadId(01) adding file "XEH_preInit.sqf"
+2025-06-16T21:03:20.371511Z TRACE ThreadId(01) adding file "menu.hpp"
+2025-06-16T21:03:20.372044Z TRACE ThreadId(01) adding file "XEH_PREP.hpp"
+2025-06-16T21:03:20.372593Z TRACE ThreadId(01) adding file "script_component.hpp"
+2025-06-16T21:03:20.373146Z TRACE ThreadId(01) adding file "script_version.hpp"
+2025-06-16T21:03:20.373712Z TRACE ThreadId(01) adding file "functions\\fnc_cleanUp.sqf"
+2025-06-16T21:03:20.374270Z TRACE ThreadId(01) adding file "functions\\fnc_planFlight.sqf"
+2025-06-16T21:03:20.374812Z TRACE ThreadId(01) adding file "functions\\fnc_setJumplight.sqf"
+2025-06-16T21:03:20.375384Z TRACE ThreadId(01) adding file "functions\\fnc_prepAircraft.sqf"
+2025-06-16T21:03:20.375924Z TRACE ThreadId(01) adding file "functions\\fnc_aiFlight.sqf"
+2025-06-16T21:03:20.376463Z TRACE ThreadId(01) adding file "functions\\fnc_prepRamp.sqf"
+2025-06-16T21:03:20.377025Z TRACE ThreadId(01) adding file "functions\\fnc_standUp.sqf"
+2025-06-16T21:03:20.377571Z TRACE ThreadId(01) adding file "functions\\script_component.hpp"
+2025-06-16T21:03:20.378114Z TRACE ThreadId(01) adding file "functions\\fnc_prepDummy.sqf"
+2025-06-16T21:03:20.378627Z TRACE ThreadId(01) adding file "functions\\fnc_aiJump.sqf"
+2025-06-16T21:03:20.380778Z  INFO ThreadId(01) Built 1 PBOs
+2025-06-16T21:03:20.380798Z TRACE ThreadId(01) phase: build (done)
+2025-06-16T21:03:20.380803Z TRACE ThreadId(01) phase: post_build (BOM Check) (start)
+2025-06-16T21:03:20.380807Z TRACE ThreadId(01) phase: post_build (BOM Check) (done)
+2025-06-16T21:03:20.380810Z TRACE ThreadId(01) phase: post_build (Hooks) (start)
+2025-06-16T21:03:20.380819Z TRACE ThreadId(01) phase: post_build (Hooks) (done)
+2025-06-16T21:03:20.380825Z TRACE ThreadId(01) phase: post_build (Binarize) (start)
+2025-06-16T21:03:20.380830Z TRACE ThreadId(01) phase: post_build (Binarize) (done)
+2025-06-16T21:03:20.380835Z TRACE ThreadId(01) phase: post_build (Files) (start)
+2025-06-16T21:03:20.927181Z DEBUG ThreadId(01) copying "/LICENSE" => "E:\\Documents\\GitHub\\free-fall-off-the-ramp\\.hemttout\\release\\LICENSE"
+2025-06-16T21:03:20.928092Z DEBUG ThreadId(01) copying "/mod.cpp" => "E:\\Documents\\GitHub\\free-fall-off-the-ramp\\.hemttout\\release\\mod.cpp"
+2025-06-16T21:03:20.929010Z DEBUG ThreadId(01) copying "/AUTHORS.txt" => "E:\\Documents\\GitHub\\free-fall-off-the-ramp\\.hemttout\\release\\AUTHORS.txt"
+2025-06-16T21:03:20.931061Z DEBUG ThreadId(01) copying "/logo_ampersand_ca.paa" => "E:\\Documents\\GitHub\\free-fall-off-the-ramp\\.hemttout\\release\\logo_ampersand_ca.paa"
+2025-06-16T21:03:20.932494Z DEBUG ThreadId(01) copying "/README.md" => "E:\\Documents\\GitHub\\free-fall-off-the-ramp\\.hemttout\\release\\README.md"
+2025-06-16T21:03:20.934188Z  INFO ThreadId(01) Copied 5 files
+2025-06-16T21:03:20.934222Z TRACE ThreadId(01) phase: post_build (Files) (done)
+2025-06-16T21:03:20.934230Z TRACE ThreadId(01) phase: post_build (Sign) (start)
+2025-06-16T21:03:20.934236Z TRACE ThreadId(01) phase: post_build (Sign) (done)
+2025-06-16T21:03:20.934241Z TRACE ThreadId(01) phase: post_build (Rapifier) (start)
+2025-06-16T21:03:20.934247Z TRACE ThreadId(01) phase: post_build (Rapifier) (done)
+2025-06-16T21:03:20.934251Z TRACE ThreadId(01) phase: post_build (SQF) (start)
+2025-06-16T21:03:20.934260Z TRACE ThreadId(01) phase: post_build (SQF) (done)
+2025-06-16T21:03:20.934266Z TRACE ThreadId(01) phase: post_build (Stringtables) (start)
+2025-06-16T21:03:20.934273Z TRACE ThreadId(01) phase: post_build (Stringtables) (done)
+2025-06-16T21:03:20.934281Z TRACE ThreadId(01) phase: pre_release (BOM Check) (start)
+2025-06-16T21:03:20.934285Z TRACE ThreadId(01) phase: pre_release (BOM Check) (done)
+2025-06-16T21:03:20.934290Z TRACE ThreadId(01) phase: pre_release (Hooks) (start)
+2025-06-16T21:03:20.934294Z TRACE ThreadId(01) phase: pre_release (Hooks) (done)
+2025-06-16T21:03:20.934298Z TRACE ThreadId(01) phase: pre_release (Binarize) (start)
+2025-06-16T21:03:20.934303Z TRACE ThreadId(01) phase: pre_release (Binarize) (done)
+2025-06-16T21:03:20.934307Z TRACE ThreadId(01) phase: pre_release (Files) (start)
+2025-06-16T21:03:20.934311Z TRACE ThreadId(01) phase: pre_release (Files) (done)
+2025-06-16T21:03:20.934315Z TRACE ThreadId(01) phase: pre_release (Sign) (start)
+2025-06-16T21:03:20.961345Z DEBUG ThreadId(01) signing "E:\\Documents\\GitHub\\free-fall-off-the-ramp\\.hemttout\\release\\addons\\ffr_main.pbo.ffr_1.0.9.0-65e80f28.bisign"
+2025-06-16T21:03:20.966304Z TRACE ThreadId(01) phase: pre_release (Sign) (done)
+2025-06-16T21:03:20.966315Z TRACE ThreadId(01) phase: pre_release (Rapifier) (start)
+2025-06-16T21:03:20.966346Z TRACE ThreadId(01) phase: pre_release (Rapifier) (done)
+2025-06-16T21:03:20.966352Z TRACE ThreadId(01) phase: pre_release (SQF) (start)
+2025-06-16T21:03:20.966355Z TRACE ThreadId(01) phase: pre_release (SQF) (done)
+2025-06-16T21:03:20.966358Z TRACE ThreadId(01) phase: pre_release (Stringtables) (start)
+2025-06-16T21:03:20.966362Z TRACE ThreadId(01) phase: pre_release (Stringtables) (done)
+2025-06-16T21:03:20.966366Z TRACE ThreadId(01) phase: archive (start)
+2025-06-16T21:03:20.966369Z TRACE ThreadId(01) phase: archive (BOM Check) (start)
+2025-06-16T21:03:20.966373Z TRACE ThreadId(01) phase: archive (BOM Check) (done)
+2025-06-16T21:03:20.966376Z TRACE ThreadId(01) phase: archive (Hooks) (start)
+2025-06-16T21:03:20.966379Z TRACE ThreadId(01) phase: archive (Hooks) (done)
+2025-06-16T21:03:20.966382Z TRACE ThreadId(01) phase: archive (Binarize) (start)
+2025-06-16T21:03:20.966385Z TRACE ThreadId(01) phase: archive (Binarize) (done)
+2025-06-16T21:03:20.966388Z TRACE ThreadId(01) phase: archive (Files) (start)
+2025-06-16T21:03:20.966391Z TRACE ThreadId(01) phase: archive (Files) (done)
+2025-06-16T21:03:20.966394Z TRACE ThreadId(01) phase: archive (Sign) (start)
+2025-06-16T21:03:20.966398Z TRACE ThreadId(01) phase: archive (Sign) (done)
+2025-06-16T21:03:20.966401Z TRACE ThreadId(01) phase: archive (Rapifier) (start)
+2025-06-16T21:03:20.966404Z TRACE ThreadId(01) phase: archive (Rapifier) (done)
+2025-06-16T21:03:20.966407Z TRACE ThreadId(01) phase: archive (SQF) (start)
+2025-06-16T21:03:20.966410Z TRACE ThreadId(01) phase: archive (SQF) (done)
+2025-06-16T21:03:20.966413Z TRACE ThreadId(01) phase: archive (Stringtables) (start)
+2025-06-16T21:03:20.966416Z TRACE ThreadId(01) phase: archive (Stringtables) (done)
+2025-06-16T21:03:20.966432Z TRACE ThreadId(01) using releases folder: "E:\\Documents\\GitHub\\free-fall-off-the-ramp\\releases"
+2025-06-16T21:03:20.966708Z DEBUG ThreadId(01) creating release at "E:\\Documents\\GitHub\\free-fall-off-the-ramp\\releases\\ffr-latest.zip"
+2025-06-16T21:03:20.967177Z TRACE ThreadId(01) zip: creating directory "@ffr/addons"
+2025-06-16T21:03:20.967288Z TRACE ThreadId(01) zip: adding file "@ffr/addons/ffr_main.pbo"
+2025-06-16T21:03:20.967392Z TRACE ThreadId(01) zip: adding file "@ffr/addons/ffr_main.pbo.ffr_1.0.9.0-65e80f28.bisign"
+2025-06-16T21:03:20.967500Z TRACE ThreadId(01) zip: adding file "@ffr/AUTHORS.txt"
+2025-06-16T21:03:20.967677Z TRACE ThreadId(01) zip: creating directory "@ffr/keys"
+2025-06-16T21:03:20.967783Z TRACE ThreadId(01) zip: adding file "@ffr/keys/ffr_1.0.9.0-65e80f28.bikey"
+2025-06-16T21:03:20.967892Z TRACE ThreadId(01) zip: adding file "@ffr/LICENSE"
+2025-06-16T21:03:20.967986Z TRACE ThreadId(01) zip: adding file "@ffr/logo_ampersand_ca.paa"
+2025-06-16T21:03:20.968115Z TRACE ThreadId(01) zip: adding file "@ffr/mod.cpp"
+2025-06-16T21:03:20.968292Z TRACE ThreadId(01) zip: adding file "@ffr/README.md"
+2025-06-16T21:03:20.978728Z  INFO ThreadId(01) Created release: E:\Documents\GitHub\free-fall-off-the-ramp\releases\ffr-latest.zip
+2025-06-16T21:03:20.978932Z  INFO ThreadId(01) Created release: E:\Documents\GitHub\free-fall-off-the-ramp\releases\ffr-1.0.9.0-65e80f28.zip
+2025-06-16T21:03:20.979542Z TRACE ThreadId(01) phase: archive (done)
+2025-06-16T21:03:20.979558Z TRACE ThreadId(01) phase: post_release (BOM Check) (start)
+2025-06-16T21:03:20.979568Z TRACE ThreadId(01) phase: post_release (BOM Check) (done)
+2025-06-16T21:03:20.979576Z TRACE ThreadId(01) phase: post_release (Hooks) (start)
+2025-06-16T21:03:20.979581Z TRACE ThreadId(01) phase: post_release (Hooks) (done)
+2025-06-16T21:03:20.979587Z TRACE ThreadId(01) phase: post_release (Binarize) (start)
+2025-06-16T21:03:20.979592Z TRACE ThreadId(01) phase: post_release (Binarize) (done)
+2025-06-16T21:03:20.979597Z TRACE ThreadId(01) phase: post_release (Files) (start)
+2025-06-16T21:03:20.979602Z TRACE ThreadId(01) phase: post_release (Files) (done)
+2025-06-16T21:03:20.979607Z TRACE ThreadId(01) phase: post_release (Sign) (start)
+2025-06-16T21:03:20.979613Z TRACE ThreadId(01) phase: post_release (Sign) (done)
+2025-06-16T21:03:20.979620Z TRACE ThreadId(01) phase: post_release (Rapifier) (start)
+2025-06-16T21:03:20.979627Z TRACE ThreadId(01) phase: post_release (Rapifier) (done)
+2025-06-16T21:03:20.979632Z TRACE ThreadId(01) phase: post_release (SQF) (start)
+2025-06-16T21:03:20.979637Z TRACE ThreadId(01) phase: post_release (SQF) (done)
+2025-06-16T21:03:20.979642Z TRACE ThreadId(01) phase: post_release (Stringtables) (start)
+2025-06-16T21:03:20.979647Z TRACE ThreadId(01) phase: post_release (Stringtables) (done)
+2025-06-16T21:03:20.987275Z TRACE ThreadId(01) writing ci annotations to .hemttout/ci_annotations.txt
+2025-06-16T21:03:20.987389Z TRACE ThreadId(01) wrote 0 ci annotations to .hemttout/ci_annotations.txt

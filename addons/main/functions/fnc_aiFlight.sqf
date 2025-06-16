@@ -81,5 +81,5 @@ _wpPos set [2, _alt];
 _wp = _grp addWaypoint [_wpPos, -1, 3, "All Out"];
 
 private _wpExfil = _grp addWaypoint [_ip, -1, 4, "Exfil"];
-_wpExfil setWaypointStatements ["true", "_a = vehicle this; deleteMarker (a getVariable 'ffr_ai_acMarker'); [a] call ffr_main_fnc_cleanup; deleteVehicleCrew _a; deleteVehicle _a;"];
+_wpExfil setWaypointStatements ["true", "_a = vehicle this; deleteMarker (_a getVariable 'ffr_ai_acMarker'); [_a] call ffr_main_fnc_cleanup; deleteVehicleCrew _a; deleteVehicle _a;"];
 _aircraft move _wpPos;

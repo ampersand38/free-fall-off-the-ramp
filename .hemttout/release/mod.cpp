@@ -1,0 +1,12 @@
+name = "Free Fall Off The Ramp";
+picture = "logo_ampersand_ca.paa";
+actionName = "GitHub";
+action = "https://github.com/ampersand38/free-fall-off-the-ramp";
+description = "Walk off the ramp to free fall.";
+logo = "logo_ampersand_ca.paa";
+logoOver = "logo_ampersand_ca.paa";
+tooltip = "Free Fall Off The Ramp";
+tooltipOwned = "Free Fall Off The Ramp";
+overview = "Walk off the ramp to free fall.";
+author = "Ampersand";
+overviewPicture = "logo_ampersand_ca.paa";
