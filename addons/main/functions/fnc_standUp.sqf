@@ -20,6 +20,18 @@ params ["_aircraft", "_unit"];
 private _dummy = _aircraft getVariable ["ffr_dummy", objNull];
 if (isNull _dummy) exitWith {};
 
+//add hook action
+hookAction = ['Hook Up','Hook Up','',{
+    params ["_unit"];
+    _unit setVariable ['ffr_static_line_hooked', true, true];
+},{
+    params ["_unit"];
+    !(_unit getVariable ['ffr_static_line_hooked', false]);
+}] call ace_interact_menu_fnc_createAction;
+[_unit, 1, ["ACE_SelfActions"], hookAction] call ace_interact_menu_fnc_addActionToObject;
+
+
+
 private _relPos = _aircraft worldToModelVisual (ASLToAGL getPosWorldVisual _unit);
 private _pos = AGLToASL (_dummy modelToWorldVisual _relPos);
 _dir = _dummy vectorModelToWorldVisual (_aircraft vectorWorldToModelVisual (vectorDir _unit));
@@ -59,11 +71,17 @@ _unit switchMove "";
     private _vel_unit = velocity _unit # 2;
     private _velRelease = (_velAircraft vectorMultiply 0.9) vectorAdd [0, 0, _vel_unit];
 
+
     _unit setPosASL _pos;
     _unit setVectorDir _dir;
     _unit setVelocity _velRelease;
     _dummy hideObject true;
 
+    //open static line if hooked
+    if (_unit getVariable ["ffr_static_line_hooked", false]) then {
+        sleep 0.1;
+        _unit action ["OpenParachute", _unit];
+    };
     [_aircraft, _unit] call ffr_main_fnc_aiJump;
 
     [{_this allowDamage true;}, _unit, 0.5] call CBA_fnc_waitAndExecute;
