@@ -79,8 +79,9 @@ _unit switchMove "";
 
     //open static line if hooked
     if (_unit getVariable ["ffr_static_line_hooked", false]) then {
-        sleep 0.1;
-        _unit action ["OpenParachute", _unit];
+        [{
+            _this action ["OpenParachute", _this];
+        }, _unit, 0.5] call CBA_fnc_waitAndExecute;
     };
     [_aircraft, _unit] call ffr_main_fnc_aiJump;
 
