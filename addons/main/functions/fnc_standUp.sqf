@@ -20,17 +20,32 @@ params ["_aircraft", "_unit"];
 private _dummy = _aircraft getVariable ["ffr_dummy", objNull];
 if (isNull _dummy) exitWith {};
 
-//add hook action
-hookAction = ['Hook Up','Hook Up','',{
-    params ["_unit"];
-    _unit setVariable ['ffr_static_line_hooked', true, true];
-},{
-    params ["_unit"];
-    !(_unit getVariable ['ffr_static_line_hooked', false]);
-}] call ace_interact_menu_fnc_createAction;
-[_unit, 1, ["ACE_SelfActions"], hookAction] call ace_interact_menu_fnc_addActionToObject;
+private _isInAircraftBay = _unit getVariable 'ffr_in_aircraft_bay';
+_unit setVariable ['ffr_static_line_hooked', false, true];
 
+if (isNil '_isInAircraftBay') then {
+    //add hook action
+    hookAction = ['Hook Up','Hook Up','',{
+        params ["_unit"];
+        _unit setVariable ['ffr_static_line_hooked', true, true];
+    },{
+        params ["_unit"];
+        (_unit getVariable 'ffr_static_line_hooked' == false and _unit getVariable 'ffr_in_aircraft_bay');
+    }] call ace_interact_menu_fnc_createAction;
 
+    //add unhook action
+    unhookAction = ['Unhook','Unhook','',{
+        params ["_unit"];
+        _unit setVariable ['ffr_static_line_hooked', false, true];
+    },{
+        params ["_unit"];
+        (_unit getVariable 'ffr_static_line_hooked' and _unit getVariable 'ffr_in_aircraft_bay');
+    }] call ace_interact_menu_fnc_createAction;
+
+    [_unit, 1, ["ACE_SelfActions"], unhookAction] call ace_interact_menu_fnc_addActionToObject;
+    [_unit, 1, ["ACE_SelfActions"], hookAction] call ace_interact_menu_fnc_addActionToObject;
+};
+_unit setVariable ['ffr_in_aircraft_bay', true, true];
 
 private _relPos = _aircraft worldToModelVisual (ASLToAGL getPosWorldVisual _unit);
 private _pos = AGLToASL (_dummy modelToWorldVisual _relPos);
@@ -81,6 +96,7 @@ _unit switchMove "";
     if (_unit getVariable ["ffr_static_line_hooked", false]) then {
         [{
             _this action ["OpenParachute", _this];
+            _this setVariable ['ffr_in_aircraft_bay', false, true];
         }, _unit, 0.5] call CBA_fnc_waitAndExecute;
     };
     [_aircraft, _unit] call ffr_main_fnc_aiJump;
