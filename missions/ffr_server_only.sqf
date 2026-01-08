@@ -299,13 +299,14 @@ if (!hasInterface) exitWith {};
 _this addAction ["<t color='#999999'>Sit Down</t>", {
     params ["_dummy", "_unit"];
     private _aircraft = _dummy getVariable "ffr_aircraft";
+    _unit setVariable ['ffr_in_aircraft_bay', false, true];
+    _unit setVariable ['ffr_static_line_hooked', false, true];
     [{
         params ["_unit", "_aircraft"];
         _unit moveInCargo _aircraft;
-        vehicle _unti == _aircraft
+        vehicle _unit == _aircraft
     }, {}, [_unit, _aircraft], 5] call CBA_fnc_waitUntilAndExecute;
 }, nil, 0, true, true, "", "!isNull (_target getVariable ['ffr_aircraft', objNull])"];
-
 };
 
 ffr_main_fnc_prepRamp = {
@@ -465,6 +466,33 @@ params ["_aircraft", "_unit"];
 private _dummy = _aircraft getVariable ["ffr_dummy", objNull];
 if (isNull _dummy) exitWith {};
 
+private _isInAircraftBay = _unit getVariable 'ffr_in_aircraft_bay';
+_unit setVariable ['ffr_static_line_hooked', false, true];
+
+if (isNil '_isInAircraftBay') then {
+    //add hook action
+    hookAction = ['Hook Up','Hook Up','',{
+        params ["_unit"];
+        _unit setVariable ['ffr_static_line_hooked', true, true];
+    },{
+        params ["_unit"];
+        (_unit getVariable 'ffr_static_line_hooked' == false and _unit getVariable 'ffr_in_aircraft_bay');
+    }] call ace_interact_menu_fnc_createAction;
+
+    //add unhook action
+    unhookAction = ['Unhook','Unhook','',{
+        params ["_unit"];
+        _unit setVariable ['ffr_static_line_hooked', false, true];
+    },{
+        params ["_unit"];
+        (_unit getVariable 'ffr_static_line_hooked' and _unit getVariable 'ffr_in_aircraft_bay');
+    }] call ace_interact_menu_fnc_createAction;
+
+    [_unit, 1, ["ACE_SelfActions"], unhookAction] call ace_interact_menu_fnc_addActionToObject;
+    [_unit, 1, ["ACE_SelfActions"], hookAction] call ace_interact_menu_fnc_addActionToObject;
+};
+_unit setVariable ['ffr_in_aircraft_bay', true, true];
+
 private _relPos = _aircraft worldToModelVisual (ASLToAGL getPosWorldVisual _unit);
 private _pos = AGLToASL (_dummy modelToWorldVisual _relPos);
 _dir = _dummy vectorModelToWorldVisual (_aircraft vectorWorldToModelVisual (vectorDir _unit));
@@ -504,15 +532,24 @@ _unit switchMove "";
     private _vel_unit = velocity _unit # 2;
     private _velRelease = (_velAircraft vectorMultiply 0.9) vectorAdd [0, 0, _vel_unit];
 
+
     _unit setPosASL _pos;
     _unit setVectorDir _dir;
     _unit setVelocity _velRelease;
     _dummy hideObject true;
 
+    //open static line if hooked
+    if (_unit getVariable ["ffr_static_line_hooked", false]) then {
+        [{
+            _this action ["OpenParachute", _this];
+            _this setVariable ['ffr_in_aircraft_bay', false, true];
+        }, _unit, 0.5] call CBA_fnc_waitAndExecute;
+    };
     [_aircraft, _unit] call ffr_main_fnc_aiJump;
 
     [{_this allowDamage true;}, _unit, 0.5] call CBA_fnc_waitAndExecute;
 }, 0, [_unit, _aircraft, _dummy, _pos # 2 - 2, CBA_missionTime + 5]] call CBA_fnc_addPerFrameHandler;
+
 };
 
 ffr_altitude_menu = isClass (configFile >> 'ffr_altitude_menu') || {isClass (missionConfigFile >> 'ffr_altitude_menu')};
