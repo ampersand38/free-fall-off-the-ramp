@@ -31,6 +31,21 @@ _this addAction ["<t color='#999999'>Sit Down</t>", {
 //prep actions for dropping cargo
 private _aircraft = _dummy getVariable "ffr_aircraft";
 private _vics = getVehicleCargo _aircraft;
+
+{
+    private _newVic = createVehicle [typeOf _x, position _x, [], 0, "CAN_COLLIDE"];
+    _newVic setVariable ["ffr_cargo_original", _x, true];
+    _dummy setVehicleCargo _newVic;
+    _newVic addAction ["Drop Vehicle", {
+        params ["_target", "_caller", "_actionId", "_arguments"];
+        private _oldVic = _target getVariable ["ffr_cargo_original", objNull];
+        if (isNull _oldVic) exitWith {};
+        objNull setVehicleCargo _oldVic;
+        deleteVehicle _target;
+    }];
+} forEach _vics;
+
+
 if (count _vics > 0) then {
 //static line drop of cargo
 _this addAction ["Paradrop Cargo Staticline", {
