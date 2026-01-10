@@ -48,12 +48,4 @@ _this addAction ["Paradrop Cargo Staticline", {
         hint "Failed to release cargo para drop.";
     };
 }, nil, 0, true, true, "", "!isNull (_target getVariable ['ffr_aircraft', objNull])"];
-
-//drops and deploys chute at 1000 meters for HALO
-_this addAction ["Paradrop Cargo 1000 meters", {
-    params ["_dummy", "_unit"];
-    private _aircraft = _dummy getVariable "ffr_aircraft";
-    _aircraft call ffr_main_fnc_dropcargo;
-
-}, nil, 0, true, true, "", "!isNull (_target getVariable ['ffr_aircraft', objNull])"];
 };
