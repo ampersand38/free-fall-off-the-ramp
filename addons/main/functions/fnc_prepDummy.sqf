@@ -44,23 +44,3 @@ private _vics = getVehicleCargo _aircraft;
         deleteVehicle _target;
     }];
 } forEach _vics;
-
-
-if (count _vics > 0) then {
-//static line drop of cargo
-_this addAction ["Paradrop Cargo Staticline", {
-    params ["_dummy", "_unit"];
-    private _aircraft = _dummy getVariable "ffr_aircraft";
-    private _success = _aircraft setVehicleCargo objNull;
-    private _vics = getVehicleCargo _aircraft;
-    if (_success) then {
-        hint "Cargo para drop released.";
-        {
-            private _strobe = createVehicle ["O_IRStrobe", _x, [], 0, "CAN_COLLIDE"];
-            _strobe attachTo [_x, [0,0,0.5]];
-        } forEach _vics;
-    } else {
-        hint "Failed to release cargo para drop.";
-    };
-}, nil, 0, true, true, "", "!isNull (_target getVariable ['ffr_aircraft', objNull])"];
-};
