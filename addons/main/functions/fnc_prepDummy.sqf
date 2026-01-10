@@ -41,6 +41,8 @@ private _vics = getVehicleCargo _aircraft;
         private _oldVic = _target getVariable ["ffr_cargo_original", objNull];
         if (isNull _oldVic) exitWith {};
         objNull setVehicleCargo _oldVic;
+        private _strobe = createVehicle ["O_IRStrobe", getPos _oldVic, [], 0, "CAN_COLLIDE"];
+        _strobe attachTo [_oldVic, [0,0,1]];
         deleteVehicle _target;
     }, nil, 0, true, true, "", "!isNull (isVehicleCargo _target)"];
 } forEach _vics;
