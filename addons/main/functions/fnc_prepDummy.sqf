@@ -42,5 +42,6 @@ private _vics = getVehicleCargo _aircraft;
         if (isNull _oldVic) exitWith {};
         objNull setVehicleCargo _oldVic;
         deleteVehicle _target;
-    }];
+    }, nil, 0, true, true, "", "!isNull (isVehicleCargo _target)"];
 } forEach _vics;
+
