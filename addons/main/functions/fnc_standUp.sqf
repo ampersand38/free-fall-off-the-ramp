@@ -24,6 +24,7 @@ private _isInAircraftBay = _unit getVariable 'ffr_in_aircraft_bay';
 _unit setVariable ['ffr_static_line_hooked', false, true];
 
 if (isNil '_isInAircraftBay') then {
+    if (isClass(configFile >> "CfgPatches" >> "ace_main")) then {
     //add hook action
     hookAction = ['Hook Up','Hook Up','',{
         params ["_unit"];
@@ -44,6 +45,18 @@ if (isNil '_isInAircraftBay') then {
 
     [_unit, 1, ["ACE_SelfActions"], unhookAction] call ace_interact_menu_fnc_addActionToObject;
     [_unit, 1, ["ACE_SelfActions"], hookAction] call ace_interact_menu_fnc_addActionToObject;
+    } else {
+        _unit addAction ["Hook Up", {
+            params ["_unit"];
+            _unit setVariable ['ffr_static_line_hooked', true, true];
+        }, nil, 0, true, true, "", "_unit getVariable 'ffr_in_aircraft_bay'"];
+
+        _unit addAction ["Unhook", {
+            params ["_unit"];
+            _unit setVariable ['ffr_static_line_hooked', false, true];
+        }, nil, 0, true, true, "", "_unit getVariable 'ffr_static_line_hooked' && _unit getVariable 'ffr_in_aircraft_bay'"];
+    };
+
 };
 _unit setVariable ['ffr_in_aircraft_bay', true, true];
 
