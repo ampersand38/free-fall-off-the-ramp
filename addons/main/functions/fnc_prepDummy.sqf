@@ -41,7 +41,7 @@ _this addAction ["Paradrop Cargo Staticline", {
     if (_success) then {
         hint "Cargo para drop released.";
         {
-            private _strobe = createVehicle ["O_IRStrobe", _pos, [], 0, "CAN_COLLIDE"];
+            private _strobe = createVehicle ["O_IRStrobe", _x, [], 0, "CAN_COLLIDE"];
             _strobe attachTo [_x, [0,0,1]];
         } forEach _vics;
     } else {
