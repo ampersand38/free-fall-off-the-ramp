@@ -19,3 +19,18 @@ exclude = [
     ".vscode",
     "*.sqfc",
 ]
+
+[hemtt.launch.default]
+parameters = [
+    "-skipIntro",           # These parameters are passed to the Arma 3 executable
+    "-noSplash",            # They do not need to be added to your list
+    "-showScriptErrors",    # You can add additional parameters here
+    "-debug",
+    "-filePatching",
+]
+workshop = [
+    "450814997", # CBA_A3
+    "843577117", # RHS USAF
+    "463939057", # ACE3
+]
+mission = "editor_para.Stratis" # Path to the mission to launch

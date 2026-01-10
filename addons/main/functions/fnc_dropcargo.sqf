@@ -30,7 +30,7 @@ if (count _vehichles == 0) exitWith {
     createMarker ["boat", _pos];
     private _dir = _this vectorModelToWorldVisual (_dummy vectorWorldToModelVisual (vectorDir _x));
     private _vel_unit = velocity _x # 2;
-    private _velRelease = (_velAircraft vectorMultiply 0.5) vectorAdd [0, 0, _vel_unit];
+    private _velRelease = (_velAircraft vectorMultiply 0.1) vectorAdd [0, 0, _vel_unit];
 
     private _vic =  createVehicle [_vicType, _pos, [], 0, "FLY"];
     // _x setPosASL _pos;
