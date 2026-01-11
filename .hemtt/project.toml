@@ -35,4 +35,6 @@ workshop = [
     "463939057", # ACE3
     "1944099353" # bf vehichles a400m
 ]
+
+#Path to missions usually in .hemtt/missions/{insert_below}
 mission = "editor_para.Stratis" # Path to the mission to launch
