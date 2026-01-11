@@ -30,7 +30,9 @@ parameters = [
 ]
 workshop = [
     "450814997", # CBA_A3
+    "333310405", # enhanced movement
     "843577117", # RHS USAF
-#    "463939057", # ACE3
+    "463939057", # ACE3
+    "1944099353" # bf vehichles a400m
 ]
 mission = "editor_para.Stratis" # Path to the mission to launch
