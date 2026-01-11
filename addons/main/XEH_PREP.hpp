@@ -4,6 +4,7 @@
 PREP(aiJump);
 PREP(aiFlight);
 PREP(cleanUp);
+PREP(animateVic);
 PREP(planFlight);
 PREP(prepAircraft);
 PREP(prepRamp);
