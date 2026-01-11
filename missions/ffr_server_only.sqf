@@ -307,6 +307,25 @@ _this addAction ["<t color='#999999'>Sit Down</t>", {
         vehicle _unit == _aircraft
     }, {}, [_unit, _aircraft], 5] call CBA_fnc_waitUntilAndExecute;
 }, nil, 0, true, true, "", "!isNull (_target getVariable ['ffr_aircraft', objNull])"];
+
+//prep actions for dropping cargo
+private _aircraft = _dummy getVariable "ffr_aircraft";
+private _vics = getVehicleCargo _aircraft;
+
+{
+    private _newVic = createVehicle [typeOf _x, position _x, [], 0, "CAN_COLLIDE"];
+    _newVic setVariable ["ffr_cargo_original", _x, true];
+    _dummy setVehicleCargo _newVic;
+    _newVic addAction ["Drop Vehicle", {
+        params ["_target", "_caller", "_actionId", "_arguments"];
+        private _oldVic = _target getVariable ["ffr_cargo_original", objNull];
+        if (isNull _oldVic) exitWith {};
+        objNull setVehicleCargo _oldVic;
+        private _strobe = createVehicle ["O_IRStrobe", getPos _oldVic, [], 0, "CAN_COLLIDE"];
+        _strobe attachTo [_oldVic, [0,0,1]];
+        deleteVehicle _target;
+    }, nil, 0, true, true, "", "!isNull (isVehicleCargo _target)"];
+} forEach _vics;
 };
 
 ffr_main_fnc_prepRamp = {
@@ -316,6 +335,12 @@ params ["_aircraft", ["_openRamp", false]];
 [_aircraft] call ffr_main_fnc_cleanup;
 // create static dummy
 private _pos = getPosASL _aircraft;
+
+//Sets dummy min altitude to 1000m ASL to avoid collision with terrain on low flybys
+if (_pos select 2 < 1000) then {
+    _pos set [2, 1000];
+};
+
 _pos params ["_x", "_y", "_z"];
 _helper = "Land_InvisibleBarrier_F" createVehicle [0, 0, 0];
 _aircraft setVariable ["ffr_helper", _helper, true];
@@ -470,6 +495,7 @@ private _isInAircraftBay = _unit getVariable 'ffr_in_aircraft_bay';
 _unit setVariable ['ffr_static_line_hooked', false, true];
 
 if (isNil '_isInAircraftBay') then {
+    if (isClass(configFile >> "CfgPatches" >> "ace_main")) then {
     //add hook action
     hookAction = ['Hook Up','Hook Up','',{
         params ["_unit"];
@@ -490,6 +516,12 @@ if (isNil '_isInAircraftBay') then {
 
     [_unit, 1, ["ACE_SelfActions"], unhookAction] call ace_interact_menu_fnc_addActionToObject;
     [_unit, 1, ["ACE_SelfActions"], hookAction] call ace_interact_menu_fnc_addActionToObject;
+    } else {
+        _dummy addAction ["Hook Up", {
+            (_this select 3 select 0) setVariable ['ffr_static_line_hooked', true, true];
+        }, [_unit], 1.5, true, true, "", "_this getVariable 'ffr_static_line_hooked' == false"];
+    };
+
 };
 _unit setVariable ['ffr_in_aircraft_bay', true, true];
 
