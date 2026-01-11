@@ -18,7 +18,7 @@ params ["_aircraft", "_dummyVic"];
 
 private _initPos = _aircraft getRelPos _dummyVic;
 for "_i" from 1 to 50 do {
-    _initPos set [1, (_initPos select 1) - 0.3]; //move back 2 meters each step
+    _initPos set [1, (_initPos select 1) - 0.3];
     _dummyVic attachTo [_aircraft, _initPos];
     sleep 0.02;
 };
