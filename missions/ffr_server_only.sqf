@@ -134,8 +134,16 @@ ffr_ai_playerEH = ["vehicle", {
 };
 ffr_main_fnc_cleanUp = {
 
-
 params ["_aircraft"];
+
+private _dummyAircraft = _aircraft getVariable ["ffr_dummy"];
+
+if (!isNull _dummyAircraft) then {
+    private _vics = getVehicleCargo _dummyAircraft;
+    {
+        deleteVehicle _x;
+    } forEach _vics;
+};
 
 {
     deleteVehicle (_aircraft getVariable [_x, objNull]);
@@ -243,6 +251,20 @@ onMapSingleClick {
     };
 };
 };
+
+ffr_main_fnc_animateVic = {
+params ["_aircraft", "_dummyVic"];
+
+private _initPos = _aircraft getRelPos _dummyVic;
+//animation only works on singleplayer
+for "_i" from 1 to 50 do {
+    _initPos set [1, (_initPos select 1) - 0.3];
+    _dummyVic attachTo [_aircraft, _initPos];
+    sleep 0.02;
+};
+deleteVehicle _dummyVic;
+}
+
 ffr_main_fnc_prepAircraft = {
 
 
@@ -294,6 +316,63 @@ _aircraft addAction ["<t color='#999999'>Secure Ramp from Free Fall</t>", {
 
 ffr_main_fnc_prepDummy = {
 
+// Helper function to add drop vehicle action on clients
+ffr_main_fnc_addCargoAction = {
+    params ["_cargoVic"];
+
+    // Wait for vehicle to exist on this client
+    waitUntil {
+        !isNull _cargoVic
+    };
+
+    _cargoVic setPhysicsCollisionFlag false;
+
+    systemChat format ["[CLIENT] Adding action to: %1", typeOf _cargoVic];
+
+    _cargoVic addAction ["Drop Vehicle", {
+        params ["_target", "_caller", "_actionId", "_arguments"];
+        systemChat "[CLIENT] Drop action triggered!";
+        private _oldVic = _target getVariable ["ffr_cargo_original", objNull];
+        if (isNull _oldVic) exitWith {};
+
+        systemChat format ["[CLIENT] Dropping: %1", typeOf _oldVic];
+
+        objNull setVehicleCargo _oldVic;
+        private _strobe = createVehicle ["O_IRStrobe", getPos _oldVic, [], 0, "CAN_COLLIDE"];
+        _strobe attachTo [_oldVic, [0,0,1]];
+
+        // Get the dummy aircraft from the dummy vehicle's variable
+        private _dummyAircraft = _target getVariable ["ffr_dummy_aircraft", objNull];
+
+        if (!isNull _dummyAircraft) then {
+            // Run animation on all clients for visibility, then delete on server
+            [_dummyAircraft, _target] remoteExec ["ffr_main_fnc_animateVic", 0];
+        } else {
+            // Fallback: delete immediately if we can't find dummy aircraft
+            deleteVehicle _target;
+        };
+    }, nil, 0, true, true, "", "!isNull (isVehicleCargo _target)"];
+};
+
+//prep actions for dropping cargo (server only)
+if (isServer) then {
+    private _aircraft = _dummy getVariable "ffr_aircraft";
+    private _vics = getVehicleCargo _aircraft;
+    systemChat format ["[SERVER] Original cargo count: %1", count _vics];
+
+    {
+        private _newVic = createVehicle [typeOf _x, position _x, [], 0, "CAN_COLLIDE"];
+        _newVic setPhysicsCollisionFlag false;
+        _newVic setVariable ["ffr_cargo_original", _x, true];
+        _newVic setVariable ["ffr_dummy_aircraft", _dummy, true]; // Store dummy aircraft reference
+        _dummy setVehicleCargo _newVic;
+        systemChat format ["[SERVER] Created cargo: %1", typeOf _newVic];
+
+        // Tell all clients to add the drop action to this vehicle
+        [_newVic] remoteExec ["ffr_main_fnc_addCargoAction", 0];
+    } forEach _vics;
+};
+
 if (!hasInterface) exitWith {};
 
 _this addAction ["<t color='#999999'>Sit Down</t>", {
@@ -307,33 +386,6 @@ _this addAction ["<t color='#999999'>Sit Down</t>", {
         vehicle _unit == _aircraft
     }, {}, [_unit, _aircraft], 5] call CBA_fnc_waitUntilAndExecute;
 }, nil, 0, true, true, "", "!isNull (_target getVariable ['ffr_aircraft', objNull])"];
-
-
-//prep actions for dropping cargo
-private _aircraft = _dummy getVariable "ffr_aircraft";
-private _vics = getVehicleCargo _aircraft;
-
-{
-    private _newVic = createVehicle [typeOf _x, position _x, [], 0, "CAN_COLLIDE"];
-    _newVic setPhysicsCollisionFlag false;
-    _newVic setVariable ["ffr_cargo_original", _x, true];
-    _dummy setVehicleCargo _newVic;
-    _newVic addAction ["Drop Vehicle", {
-        params ["_target", "_caller", "_actionId", "_arguments"];
-        private _oldVic = _target getVariable ["ffr_cargo_original", objNull];
-        if (isNull _oldVic) exitWith {};
-
-        [{
-            params ["_oldVic"];
-            objNull setVehicleCargo _oldVic;
-        }, [_oldVic], 1] call CBA_fnc_waitAndExecute;
-
-        private _strobe = createVehicle ["O_IRStrobe", getPos _oldVic, [], 0, "CAN_COLLIDE"];
-        _strobe attachTo [_oldVic, [0,0,1]];
-        [_this select 3 select 0, _target] call ffr_main_fnc_animateVic;
-        //deleteVehicle _target;
-    }, [_dummy], 0, true, true, "", "!isNull (isVehicleCargo _target)"];
-} forEach _vics;
 };
 
 ffr_main_fnc_prepRamp = {
