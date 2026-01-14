@@ -15,7 +15,7 @@ Move unit out of aicraft seat to standing in ViV space
 
 params ["_aircraft"];
 
-private _dummyAircraft = _aircraft getVariable ["ffr_dummy"];
+private _dummyAircraft = _aircraft getVariable ["ffr_dummy", objNull];
 
 if (!isNull _dummyAircraft) then {
     private _vics = getVehicleCargo _dummyAircraft;

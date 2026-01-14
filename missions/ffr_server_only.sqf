@@ -136,7 +136,7 @@ ffr_main_fnc_cleanUp = {
 
 params ["_aircraft"];
 
-private _dummyAircraft = _aircraft getVariable ["ffr_dummy"];
+private _dummyAircraft = _aircraft getVariable ["ffr_dummy", objNull];
 
 if (!isNull _dummyAircraft) then {
     private _vics = getVehicleCargo _dummyAircraft;
@@ -256,11 +256,15 @@ ffr_main_fnc_animateVic = {
 params ["_aircraft", "_dummyVic"];
 
 private _initPos = _aircraft getRelPos _dummyVic;
-//animation only works on singleplayer
-for "_i" from 1 to 50 do {
-    _initPos set [1, (_initPos select 1) - 0.3];
-    _dummyVic attachTo [_aircraft, _initPos];
-    sleep 0.02;
+
+if (hasInterface) then {
+    for "_i" from 1 to 50 do {
+        _initPos set [1, (_initPos select 1) - 0.3];
+        _dummyVic attachTo [_aircraft, _initPos];
+        sleep 0.02;
+    };
+} else {
+    sleep 1;
 };
 deleteVehicle _dummyVic;
 }
@@ -316,7 +320,6 @@ _aircraft addAction ["<t color='#999999'>Secure Ramp from Free Fall</t>", {
 
 ffr_main_fnc_prepDummy = {
 
-// Helper function to add drop vehicle action on clients
 ffr_main_fnc_addCargoAction = {
     params ["_cargoVic"];
 
@@ -327,15 +330,12 @@ ffr_main_fnc_addCargoAction = {
 
     _cargoVic setPhysicsCollisionFlag false;
 
-    systemChat format ["[CLIENT] Adding action to: %1", typeOf _cargoVic];
 
     _cargoVic addAction ["Drop Vehicle", {
         params ["_target", "_caller", "_actionId", "_arguments"];
-        systemChat "[CLIENT] Drop action triggered!";
         private _oldVic = _target getVariable ["ffr_cargo_original", objNull];
         if (isNull _oldVic) exitWith {};
 
-        systemChat format ["[CLIENT] Dropping: %1", typeOf _oldVic];
 
         objNull setVehicleCargo _oldVic;
         private _strobe = createVehicle ["O_IRStrobe", getPos _oldVic, [], 0, "CAN_COLLIDE"];
@@ -358,15 +358,14 @@ ffr_main_fnc_addCargoAction = {
 if (isServer) then {
     private _aircraft = _dummy getVariable "ffr_aircraft";
     private _vics = getVehicleCargo _aircraft;
-    systemChat format ["[SERVER] Original cargo count: %1", count _vics];
 
     {
         private _newVic = createVehicle [typeOf _x, position _x, [], 0, "CAN_COLLIDE"];
         _newVic setPhysicsCollisionFlag false;
+        _newVic allowDamage false;
         _newVic setVariable ["ffr_cargo_original", _x, true];
         _newVic setVariable ["ffr_dummy_aircraft", _dummy, true]; // Store dummy aircraft reference
         _dummy setVehicleCargo _newVic;
-        systemChat format ["[SERVER] Created cargo: %1", typeOf _newVic];
 
         // Tell all clients to add the drop action to this vehicle
         [_newVic] remoteExec ["ffr_main_fnc_addCargoAction", 0];

@@ -17,10 +17,14 @@ Animates the vehicle out of the back of the dummy aircraft.
 params ["_aircraft", "_dummyVic"];
 
 private _initPos = _aircraft getRelPos _dummyVic;
-//animation only works on singleplayer
-for "_i" from 1 to 50 do {
-    _initPos set [1, (_initPos select 1) - 0.3];
-    _dummyVic attachTo [_aircraft, _initPos];
-    sleep 0.02;
+
+if (hasInterface) then {
+    for "_i" from 1 to 50 do {
+        _initPos set [1, (_initPos select 1) - 0.3];
+        _dummyVic attachTo [_aircraft, _initPos];
+        sleep 0.02;
+    };
+} else {
+    sleep 1;
 };
 deleteVehicle _dummyVic;
