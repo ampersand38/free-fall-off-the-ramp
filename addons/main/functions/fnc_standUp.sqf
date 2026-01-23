@@ -68,12 +68,12 @@ _unit setVectorDir _dir;
 _unit switchMove "";
 
 [{
-    params ["_unit", "_pos", "_aircraft"];
-    private _unitPos = getPosASL _unit;
-    if (_unitPos distance _pos < 10) then {
+    params ["_unit", "_aircraft"];
+    private _isFreeFall = getUnitFreefallInfo _unit select 0;
+    if (_isFreeFall) then {
         _unit moveInCargo _aircraft;
     };
-},[_unit, _pos, _aircraft], 1] call CBA_fnc_waitAndExecute;
+},[_unit, _aircraft], 1] call CBA_fnc_waitAndExecute;
 
 [{ _this allowDamage true; }, _unit, 2] call CBA_fnc_waitAndExecute;
 
