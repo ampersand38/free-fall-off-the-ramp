@@ -12,8 +12,8 @@ class ffr_altitude_menu {
         	w = "0.41025 * safezoneW";
         	h = "0.055 * safezoneH";
             sliderPosition = 10000;
-            sliderRange[] = {1000, 15000};
-            sliderStep = 500;
+            sliderRange[] = {225, 15000};
+            sliderStep = 25;
         	deletable = 0;
         	fade = 0;
         	type = 3;

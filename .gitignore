@@ -10,3 +10,9 @@ releases/*
 keys/*
 .hemtt/local
 *.exe
+/.hemttout/latest.log
+/.hemttout/unused_external_classes.txt
+/.hemtt/missions
+.hemttout/latest.log
+/.hemttout/dev
+.hemttout/latest.log

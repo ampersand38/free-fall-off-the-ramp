@@ -19,6 +19,12 @@ params ["_aircraft", ["_openRamp", false]];
 [_aircraft] call ffr_main_fnc_cleanup;
 // create static dummy
 private _pos = getPosASL _aircraft;
+
+//Sets dummy min altitude to 1000m ASL to avoid collision with terrain on low flybys
+if (_pos select 2 < 1000) then {
+    _pos set [2, 1000];
+};
+
 _pos params ["_x", "_y", "_z"];
 _helper = "Land_InvisibleBarrier_F" createVehicle [0, 0, 0];
 _aircraft setVariable ["ffr_helper", _helper, true];
