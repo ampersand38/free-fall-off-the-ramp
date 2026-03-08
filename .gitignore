@@ -10,3 +10,4 @@ releases/*
 keys/*
 .hemtt/local
 *.exe
+.hemttout

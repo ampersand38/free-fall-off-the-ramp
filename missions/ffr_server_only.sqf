@@ -359,9 +359,6 @@ private _pfID = [{
     _args params ["_aircraft", "_dummy", "_animInfo"];
     _animInfo params ["_animType", "_anims"];
     {
-        [_dummy, [_x, 1]] call _fnc_animateRamp;
-    } forEach _animations;
-    {
         switch (_animType) do {
             case (""): {
                 _dummy animate [_x, _aircraft animationPhase _x, true];
@@ -776,6 +773,42 @@ if (isClass (configFile >> "CfgVehicles" >> _class)) then {
         _aircraft setVariable ["ffr_jumpInfo", [
             ["", ["ramp_bottom", "ramp_bottom2", "ramp_top"]],    // _animInfo
             [0, -7.1, 5.5]                  // _jumplightPos
+        ]];
+    }, true, [], true] call CBA_fnc_addClassEventHandler;
+};
+
+_class = "PRACS_AN12_base";
+if (isClass (configFile >> "CfgVehicles" >> _class)) then {
+    [_class, "init", {
+        params ["_aircraft"];
+        [_aircraft] call ffr_main_fnc_prepAircraft;
+        _aircraft setVariable ["ffr_jumpInfo", [
+            ["source", ["ramp"]],    // _animInfo
+            [0, -6, 4.35]                  // _jumplightPos
+        ]];
+    }, true, [], true] call CBA_fnc_addClassEventHandler;
+};
+
+_class = "JK_C130_base_F";
+if (isClass (configFile >> "CfgVehicles" >> _class)) then {
+    [_class, "init", {
+        params ["_aircraft"];
+        [_aircraft] call ffr_main_fnc_prepAircraft;
+        _aircraft setVariable ["ffr_jumpInfo", [
+            ["source", ["ramp_bottom", "ramp_top"]],    // _animInfo
+            [0, -3.2, 3.87]                  // _jumplightPos
+        ]];
+    }, true, [], true] call CBA_fnc_addClassEventHandler;
+};
+
+_class = "il76td";
+if (isClass (configFile >> "CfgVehicles" >> _class)) then {
+    [_class, "init", {
+        params ["_aircraft"];
+        [_aircraft] call ffr_main_fnc_prepAircraft;
+        _aircraft setVariable ["ffr_jumpInfo", [
+            ["", ["RC_door3","RC_door4","RC_door2","RC_door","RC_door1","RC_door_back","RC_door_back_down"]],    // _animInfo
+            [0, -10, -2]                  // _jumplightPos
         ]];
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 };

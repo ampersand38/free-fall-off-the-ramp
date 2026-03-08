@@ -63,9 +63,6 @@ private _pfID = [{
     _args params ["_aircraft", "_dummy", "_animInfo"];
     _animInfo params ["_animType", "_anims"];
     {
-        [_dummy, [_x, 1]] call _fnc_animateRamp;
-    } forEach _animations;
-    {
         switch (_animType) do {
             case (""): {
                 _dummy animate [_x, _aircraft animationPhase _x, true];
