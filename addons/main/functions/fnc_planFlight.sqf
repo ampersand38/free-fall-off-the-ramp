@@ -40,7 +40,6 @@ if (!isNil "ffr_ai_pfID") then {
 };
 ffr_ai_pfID = [{
     params ["_aircraft", "_pfID"];
-    _args params ["_aircraft"];
     ffr_ai_acMarker setMarkerPos _aircraft;
     if (!alive _aircraft) then {
         deleteMarker ffr_ai_acMarker;

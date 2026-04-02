@@ -22,7 +22,7 @@ private _AIs = units _unit select {
     {vehicle _x == _aircraft} &&
     {(_aircraft getCargoIndex _x) > -1}
 };
-if (count _AIs == 0) exitWith {};
+if (_AIs isEqualTo []) exitWith {};
 
 ffr_AIs = _AIs apply {_x};
 // AI teammates eject
@@ -42,12 +42,11 @@ ffr_AIs = _AIs apply {_x};
 
 // AI teammates open chute
 ffr_ai_playerEH = ["vehicle", {
-    params ["_unit", "_newVehicle", "_oldVehicle"];
+    params ["", "_newVehicle"];
     if (_newVehicle isKindOf "ParachuteBase") then {
         ffr_ai_openingAlt = getPosASL player # 2;
         [{
             params ["", "_pfID"];
-            _args params ["_aircraft", "_AIs", "_previousAI"];
             private _done = true;
             {
                 if ((getPosASL _x # 2) > ffr_ai_openingAlt) then {

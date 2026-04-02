@@ -131,18 +131,6 @@ if (isClass (configFile >> "CfgVehicles" >> _class)) then {
     }, true, ["CUP_B_MV22_VIV_USMC"], true] call CBA_fnc_addClassEventHandler;
 };
 
-_class = "CUP_B_MV22_USMC";
-if (isClass (configFile >> "CfgVehicles" >> _class)) then {
-    [_class, "init", {
-        params ["_aircraft"];
-        [_aircraft] call ffr_main_fnc_prepAircraft;
-        _aircraft setVariable ["ffr_jumpInfo", [
-            ["door", ["ramp_bottom", "ramp_top"]],    // _animInfo
-            [0, -3, -0.6]                  // _jumplightPos
-        ]];
-    }, false, [], true] call CBA_fnc_addClassEventHandler;
-};
-
 _class = "CUP_B_MV22_VIV_USMC";
 if (isClass (configFile >> "CfgVehicles" >> _class)) then {
     [_class, "init", {
@@ -296,6 +284,18 @@ if (isClass (configFile >> "CfgVehicles" >> _class)) then {
         _aircraft setVariable ["ffr_jumpInfo", [
             ["", ["RC_door3","RC_door4","RC_door2","RC_door","RC_door1","RC_door_back","RC_door_back_down"]],    // _animInfo
             [0, -10, -2]                  // _jumplightPos
+        ]];
+    }, true, [], true] call CBA_fnc_addClassEventHandler;
+};
+
+_class = "SADO_CV22";
+if (isClass (configFile >> "CfgVehicles" >> _class)) then {
+    [_class, "init", {
+        params ["_aircraft"];
+        [_aircraft] call ffr_main_fnc_prepAircraft;
+        _aircraft setVariable ["ffr_jumpInfo", [
+            ["source", ["ramp_bottom", "ramp_top"]],    // _animInfo
+            [0,-5.13097,2.72459]                  // _jumplightPos
         ]];
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 };
