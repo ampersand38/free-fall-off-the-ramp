@@ -480,17 +480,22 @@ _unit switchMove "";
     params ["_args", "_pfID"];
     _args params ["_unit", "_aircraft", "_dummy", "_height", "_timeStandSafe"];
 
+    if (vehicle _unit == _aircraft) exitWith {
+        [_pfID] call CBA_fnc_removePerFrameHandler;
+    }; // Returned to aircraft
+
     private _alt = getPosASL _unit # 2;
 
-    if (vehicle _unit != _aircraft && {_alt > _height}) exitWith {}; // Safe
-
-    [_pfID] call CBA_fnc_removePerFrameHandler;
-    _unit setUnitFreefallHeight -1;
+    if (_alt > _height) exitWith {}; // Safe
 
     // Unit got squeezed out
     if (CBA_missionTime < _timeStandSafe) exitWith {
         _unit moveInCargo _aircraft;
     };
+
+    // Free-falling
+    [_pfID] call CBA_fnc_removePerFrameHandler;
+    _unit setUnitFreefallHeight -1;
 
     // Return to flying aircraft for free fall
     private _velAircraft = velocity _aircraft;
@@ -509,6 +514,7 @@ _unit switchMove "";
 
     [{_this allowDamage true;}, _unit, 0.5] call CBA_fnc_waitAndExecute;
 }, 0, [_unit, _aircraft, _dummy, _pos # 2 - 2, CBA_missionTime + 5]] call CBA_fnc_addPerFrameHandler;
+
 };
 
 ffr_altitude_menu = isClass (configFile >> 'ffr_altitude_menu') || {isClass (missionConfigFile >> 'ffr_altitude_menu')};
